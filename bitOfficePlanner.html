@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link id="favicon-link" rel="icon" type="image/x-icon" href="">
+    <title>bitOffice Planner</title>
+</head>
+<h1 onclick="alert(license);">bitOffice <sub>planner</sub></h1>
+<body>
+    <nav id="top-nav">
+        <button onclick="showMain('main-startup');">&#128194;</button>
+        <button onclick="showMain('main-contacts-table');" >&#9742;</button>
+        <button onclick="showMain('main-calendar-start');makeCalendar();">&#128197;</button>
+        <button onclick="showMain('main-help');">?</button>
+    </nav>
+    <nav id="back-nav">
+        <button onclick="processGoBackFromApp(currentApp);">&#127968;</button>
+    </nav>
+    <main id="main-startup">
+        <h2>Load/Save</h2>
+        <button id="startup-load-button" onclick="loadCombinedDatabase()">&#128194; Load</button>
+        <button id="saveButton" onclick="saveCombinedDatabase()">&#128193; Save</button>
+    </main>
+    <main id="main-help">
+        <h2>Help</h2>
+		<p>You can:
+			<ol>
+				<li>Load/Save your data to its native format.  This will save both the Contacts and Calendar in one file.</li>
+				<li>Import/Export to CSV.  This will import or export CSV from MS Outlook.</li>
+			</ol>
+			<p>Note: the CSV is compatible with Outlook.  When loading into Google Contacts or Calendar, import as if Outlook CSV.
+			Outlook has more fields, so if they are present will be shown in the Notes or Details instead.</p>
+		</p>
+    </main>
+    <main id="main-contacts-table">
+        <h2 id="contacts-table-name">Contacts</h2>
+        <nav>
+            <button onclick='newContactsEntry();'>+ New Contact</button>
+            <!--<button onclick="processCSVClick(contactsTable);">CSV</button>-->
+            <button onclick="loadOutlookContactsCSV();">&#128194; Import</button>
+			<button onclick="saveOutlookContactsCSV();">&#128193; Export</button>
+        </nav>
+
+        <div id="contacts-table" class="table-container"></div>
+    </main>
+    <main id="main-contacts-form">
+        <h2>Contacts</h2>
+        <div id="contacts-edit-form-message"></div>
+        <div id="contacts-edit-form"></div>
+        <button onclick='saveContactsEntry();'>Save</button>
+        <button onclick='deleteContactsEntry();'>Delete</button>
+        <button onclick='cancelContactsEntry();'>Cancel</button>
+    </main>
+    <main id="main-calendar-start">
+        <h2>Calendar</h2>
+        <nav>
+            <button onclick="loadOutlookCSV();">&#128194; Import</button>
+			<button onclick="createOutlookCSV();">&#128193; Export</button>
+			<button onclick="clearCalendar();">Clear Calendar</button>
+		</nav>
+        <div><input type='date' id="calendar-date"></div>
+        <input id="month-chooser" type="month">
+        <div id="special-calendar"></div>
+    </main>
+    <main id="main-calendar-table">
+        <h2>Calendar</h2>
+        <h3 id="calendar-table-name"></h3>
+        <nav>
+            <button onclick='newCalendarEntry();'>+ New Entry</button>
+            <button onclick="processCalendarHome();">Back to Main Calendar</button>
+            <button onclick="processCalendarCSVClick();">CSV</button>
+        </nav>
+        <div id="calendar-table" class="table-container"></div>
+    </main>
+    <main id="main-calendar-form">
+        <h2>Calendar</h2>
+        <h3 id="calendar-edit-form-message"></h3>
+        <div id="calendar-edit-form"></div>
+        <button onclick='saveCalendarEntry();'>Save</button>
+        <button onclick='deleteCalendarEntry();'>Delete</button>
+        <button onclick='cancelCalendarEntry();'>Cancel</button>
+    </main>
+
+
+    <footer onclick="alert(license)">bitOffice &copy; 2022</footer>
+    <!--
+    <script src="globalVariables.js"></script>
+    <script src="commonFunctions.js"></script>
+    <script src="notes_javascript.js"></script>
+    <script src="write_javascript.js"></script>
+    <script src="tables_javascript.js"></script>
+    <script src="contacts_javascript.js"></script>
+    <script src="calculator_javascript.js"></script>
+
+    -->
+    <script src="globalVariables.js"></script>
+    <script src="csvreaderwriter.js"></script>
+    <script src="commonFunctions.js"></script>
+    <script src="calendar_javascript.js"></script>
+        <script src="contacts_javascript.js"></script>
+    <script>
+		
+    showMain('main-startup');
+	makeFavicon("p", "white", "mediumblue");
+	window.onbeforeunload = askConfirm;
+</script>
+        
+
+</body>
+
+</html>
