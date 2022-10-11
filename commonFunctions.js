@@ -276,6 +276,7 @@ function makeCSV(thisTable, saveWithHeader = true) { ////This one fixed
 }
 
 //needs rewritten to match above format
+/*
 function readCSV(csvString, loadWithHeader = true) {
     //trim string
     csvString = csvString.trim();
@@ -344,6 +345,7 @@ function readCSV(csvString, loadWithHeader = true) {
     console.log(JSON.stringify(finalTable));
     return JSON.parse(JSON.stringify(finalTable));
 }
+* */
 
 function tokenMaker(intSize) {
     let token = "";

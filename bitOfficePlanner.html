@@ -39,10 +39,10 @@
     <main id="main-contacts-table">
         <h2 id="contacts-table-name">Contacts</h2>
         <nav>
-            <button onclick='newContactsEntry();'>+ New Contact</button>
             <!--<button onclick="processCSVClick(contactsTable);">CSV</button>-->
             <button onclick="loadOutlookContactsCSV();">&#128194; Import</button>
 			<button onclick="saveOutlookContactsCSV();">&#128193; Export</button>
+			<button onclick='newContactsEntry();'>+ New Contact</button>
         </nav>
 
         <div id="contacts-table" class="table-container"></div>
@@ -101,7 +101,7 @@
     <script src="csvreaderwriter.js"></script>
     <script src="commonFunctions.js"></script>
     <script src="calendar_javascript.js"></script>
-        <script src="contacts_javascript.js"></script>
+    <script src="contacts_javascript.js"></script>
     <script>
 		
     showMain('main-startup');

@@ -281,11 +281,14 @@ border-radius:5px;
 }
 
 
-/* keeps cell phone column from collapsing */
+/* keeps cell phone column from collapsing
 
-#contacts-table>table>thead>tr>th:nth-of-type(2) {
+#contacts-table>table>thead>tr>th:nth-of-type(4),
+#contacts-table>table>thead>tr>th:nth-of-type(5),
+#contacts-table>table>thead>tr>th:nth-of-type(6) {
     min-width: 7rem;
 }
+*/
 
 
 /* hides everything, then shows next 2 columns, the first widest */
@@ -298,13 +301,35 @@ border-radius:5px;
 #contacts-table td:nth-of-type(1),
 #contacts-table th:nth-of-type(1) {
     display: table-cell;
-    width: 100%;
+    max-width:7rem;
+    overflow-wrap:break-word;
 }
 
 #contacts-table th:nth-of-type(2),
 #contacts-table td:nth-of-type(2) {
-    display: table-cell;
+    /*display: table-cell;
+    max-width: 7rem;
+    overflow-wrap:break-word;*/
+    display:none;
 }
+
+#contacts-table th:nth-of-type(3),
+#contacts-table td:nth-of-type(3) {
+    display: table-cell;
+        max-width:5rem;
+     overflow-wrap:break-word;
+}
+
+#contacts-table th:nth-of-type(4),
+#contacts-table td:nth-of-type(4) {
+    display: table-cell;
+    width:7rem;
+    /*max-width:7rem;*/
+     overflow-wrap:break-word;
+}
+
+
+
 
 
 /* hides everything, then shows next 2 columns, the first widest */
@@ -728,6 +753,7 @@ footer {
     #contacts-table td {
         display: table-cell;
     }
+    
 }
 
 

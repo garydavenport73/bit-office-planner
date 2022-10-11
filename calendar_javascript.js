@@ -286,7 +286,7 @@ function makeCalendar() {
             calendarString += "</tr><tr>"
         }
         calendarString += "<td class='return-calendar-date'>" + (i + 1).toString() + "</td>";
-        console.log(thisDate, thisDayOfWeek);
+        //console.log(thisDate, thisDayOfWeek);
     }
 
     //blank days at end
@@ -294,7 +294,7 @@ function makeCalendar() {
     let lastDayIndex = (daysInMonth - 1 + startDayIndex) % 7;
     let blankSpacesRemaining = 6 - lastDayIndex;
     for (let i = 0; i < blankSpacesRemaining; i++) {
-        console.log("x", daysAbbreviations[lastDayIndex + 1 + i]);
+        //console.log("x", daysAbbreviations[lastDayIndex + 1 + i]);
         calendarString += "<td>" + "-" + "</td>";
     }
     calendarString += "</tr></table>";
@@ -439,26 +439,27 @@ function loadOutlookCSV(){
 						row[headers[j]]=outlookData[i][headers[j]];
 					}	
 				}
-				let addOnString="\r\nAdditional Information:\r\n_______________________";
+				let addOnString="\nAdditional Information:\n_______________________";
 				for (let j=0;j<outlookHeaders.length;j++){
+					//console.log("XXXXXXXXXXXXXXXXXX "+outlookHeaders[j]+":"+outlookData[i][outlookHeaders[j]]);
 					if (row.hasOwnProperty(outlookHeaders[j])){
-						//alert("has own property"+outlookHeaders[i]);
+						//do nothing
 					}
 					else{
-						if ((outlookData[i][outlookHeaders[j]].trim()==="")||(outlookData[i][outlookHeaders[j]].trim()==="Normal")){//check to make sure that field is not empty 
-							//do nothing
-						} else {
-							addOnString+="\r\n"+outlookHeaders[j]+":"+outlookData[i][outlookHeaders[j]];
-						}//console.log("extra: "+outlookHeaders[j]+"\n"+outlookData[i][outlookHeaders[j]]);
+						if ((outlookData[i][outlookHeaders[j]].trim()!=="")&&(outlookData[i][outlookHeaders[j]].trim()!=="Normal")){//check to make sure that field is not empty 
+							//row["Description"]+="\r\n"+outlookHeaders[j]+":"+outlookData[i][outlookHeaders[j]];
+							addOnString+="\n"+outlookHeaders[j]+":"+outlookData[i][outlookHeaders[j]];
+						}
 					}
 				}
-				if (addOnString==="\r\nAdditional Information:\r\n_______________________"){//no changes made
-					//do nothing
+
+				if (addOnString!=="\nAdditional Information:\n_______________________"){
+
+					row["Description"]+=addOnString.trim();//
 					row["Description"]=row["Description"].trim();
-				} else {//changes made, add on to description
-					row["Description"]=row["Description"].trim();
-					row["Description"]+="\r\n"+addOnString;
 				}
+				
+				
 				calendarDatabase["data"].push(row);
 			}
 			//now add all properties that are not under heading and concatenate to description in key val pairs
