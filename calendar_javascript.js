@@ -29,10 +29,14 @@ function processCalendarCSVClick() {
         }
     }
 
-
     tempTable["headers"] = calendarDatabase["headers"];
     //tempTable["data"] = calendarDatabase["data"];
+    
+    tempTable=JSON.parse(JSON.stringify(tempTable));
+    
     tempTable["name"] = "Calendar";
+
+    //destructiveSort(tempTable["data"], "Start Time");
     processCSVClick(tempTable);
 }
 
@@ -58,18 +62,21 @@ function buildCalendarTableElement(date) { //needs headers data
     //if the row data has start date or end date on the date or in between, add the 
     //informmation to the table
 
-    for (let i = 0; i < calendarDatabase["data"].length; i++) {
+    let tempData=JSON.parse(JSON.stringify(calendarDatabase["data"]));
+    //destructiveSort(tempData,"sort value");
+
+    for (let i = 0; i < tempData.length; i++) {
         if (
-            (date === calendarDatabase["data"][i]["Start Date"]) ||
-            (date === calendarDatabase["data"][i]["End Date"]) ||
-            ((date >= calendarDatabase["data"][i]["Start Date"]) && (date <= calendarDatabase["data"][i]["End Date"]))
+            (date === tempData[i]["Start Date"]) ||
+            (date === tempData[i]["End Date"]) ||
+            ((date >= tempData[i]["Start Date"]) && (date <= tempData[i]["End Date"]))
         ) {
 
             //for (let i = 0; i < numberOfRows; i++) {
             tableElement += "<tr id='calendar-table-row-" + i.toString() + "' onclick=\"selectCalendarEditForm(" + i.toString() + ")\">";
             for (let j = 0; j < numberOfColumns; j++) {
                 let fieldName = calendarDatabase["headers"][j];
-                tableElement += "<td><pre>" + calendarDatabase["data"][i][fieldName] + "</pre></td>";
+                tableElement += "<td><pre>" + tempData[i][fieldName] + "</pre></td>";
             }
             tableElement += "</tr>";
             //}
@@ -216,7 +223,7 @@ function deleteCalendarEntry() {
     let date = document.getElementById("calendar-date").value;
     if (index >= 0) { //editing an entry
         if (confirm("Delete this entry?")) {
-            calendarDatabase["dates"][date]["data"].splice(index, 1); //an object
+            calendarDatabase["data"].splice(index, 1);
         }
     }
     clearCalendarFormEntries();
@@ -428,6 +435,7 @@ function loadOutlookCSV(){
 			for (let i=0;i<outlookData.length;i++){
 				let row={};
 				console.log(outlookData[i]);
+                //for any row, convert dates and times to html input type=date format
 				for (let j=0;j<headers.length;j++){
 					if ((headers[j]==="Start Date")||(headers[j]==="End Date")){
 						row[headers[j]]=outlookDateToPlannerDate(outlookData[i][headers[j]]);
@@ -439,6 +447,7 @@ function loadOutlookCSV(){
 						row[headers[j]]=outlookData[i][headers[j]];
 					}	
 				}
+                //any header that is in outlook csv data but not a planner heading is added to Description
 				let addOnString="\nAdditional Information:\n_______________________";
 				for (let j=0;j<outlookHeaders.length;j++){
 					//console.log("XXXXXXXXXXXXXXXXXX "+outlookHeaders[j]+":"+outlookData[i][outlookHeaders[j]]);
@@ -458,13 +467,21 @@ function loadOutlookCSV(){
 					row["Description"]+=addOnString.trim();//
 					row["Description"]=row["Description"].trim();
 				}
+                //now add all properties that are not under heading and concatenate to description in key val pairs
 				
 				
 				calendarDatabase["data"].push(row);
 			}
-			//now add all properties that are not under heading and concatenate to description in key val pairs
 
-			destructiveSort(calendarDatabase["data"], "sort value");
+            //go through each row and add a value called "sort value" for sorting data when needed, consists of startdate followed by start time.
+            //"sort value" is not added to header, as it is used in the program but not for display saving etc.
+			
+            //when data is loaded in or changed, sort value is added and calendar always sorted
+            addSortValueToCalendarData();
+            destructiveSort(calendarDatabase["data"], "sort value");
+            ////////////////////
+
+
 			//calendarTable.innerHTML = buildCalendarTableElement(date);
 			showMain("main-calendar-start");
 			makeCalendar();
@@ -476,10 +493,29 @@ function loadOutlookCSV(){
 	}
 
 }
+function addSortValueToCalendarData(){
+    for (let i=0;i<calendarDatabase["data"].length;i++){
+        let row=calendarDatabase["data"][i];
+
+        //insist start date exists
+        if ((row["Start Date"] === "")||(row["Start Date"] === undefined)) {
+            row["Start Date"] = "1970-01-01";
+        }
+        if ((row["Start Time"] === "")||(row["Start Time"] === undefined)) {
+            row["Start Time"] = "00:00";
+        }
+
+        calendarDatabase["data"][i]["sort value"]=row["Start Date"]+row["Start Time"];
+    }
+}
 	
 	
 function outlookDateToPlannerDate(outlookDate){
 	let outlookData=outlookDate.trim().split("/");
+
+    if (outlookData.length!==3){
+        return outlookDate;
+    }
 	let month=("0"+outlookData[0]).slice(-2);
 	let day=("0"+outlookData[1]).slice(-2);
 	let year=outlookData[2];
@@ -499,10 +535,11 @@ function outlookTimeToPlannerTime(outlookTime){
 	//	leading 0 must be added
 	//	add 12 to PM hours
 	//	only report hour and minutes
-	let add12hours=0;
+
+    let PM=false;
 	if (outlookTime.indexOf("PM")!=-1){
 		//alert("has PM!");
-		add12hours=12;
+		PM=true;
 	}
 	
 	let outlookData=outlookTime.split(":");
@@ -511,7 +548,12 @@ function outlookTimeToPlannerTime(outlookTime){
 	
 	let strHour=outlookData[0];
 	let intHour=parseInt(strHour);
-	intHour = intHour + add12hours;//add 12 hours if needed
+
+    //add 12 hours if needed
+    if ((PM===true)&&(intHour!==12)){
+        intHour+=12;
+    }
+
 	strHour = intHour.toString();//convert back to string
 	strHour=("0"+strHour).slice(-2);//add leading 0 if needed
 	

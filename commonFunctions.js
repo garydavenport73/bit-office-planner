@@ -20,6 +20,12 @@ function loadCombinedDatabase() {
                 //compareCombinedDatabase = JSON.stringify(combinedDatabase);
                 contactsTable = combinedDatabase["contacts"];
                 calendarDatabase = combinedDatabase["calendar"];
+
+                //when data is loaded in or changed, sort value is added and calendar always sorted
+                addSortValueToCalendarData();
+                destructiveSort(calendarDatabase["data"], "sort value");
+                ////////////////////
+                
                 clearContactFormEntries(contactsTable);
                 contactsTableElement.innerHTML = buildContactsTableElement(contactsTable);
                 makeCalendar();
@@ -360,11 +366,11 @@ function tokenMaker(intSize) {
 
 function processCSVClick(table) {
     let thisCSV = "";
-    if (confirm("Include header as first line in csv file?")) {
+    //if (confirm("Include header as first line in csv file?")) {
         thisCSV = makeCSV(table, true);
-    } else {
-        thisCSV = makeCSV(table, false);
-    }
+    //} else {
+    //    thisCSV = makeCSV(table, false);
+    //}
     copyToClipBoard(thisCSV);
     if (confirm("Table copied to CSV.\n\nSave to file also?")) {
         saveStringToTextFile(thisCSV, table["name"] + getTodaysDate(), ".csv");
