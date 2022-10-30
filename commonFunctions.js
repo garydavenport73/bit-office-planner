@@ -22,8 +22,8 @@ function loadCombinedDatabase() {
                 calendarDatabase = combinedDatabase["calendar"];
 
                 //when data is loaded in or changed, sort value is added and calendar always sorted
-                addSortValueToCalendarData();
-                destructiveSort(calendarDatabase["data"], "sort value");
+                //addSortValueToCalendarData();
+                //destructiveSort(calendarDatabase["data"], "sort value");
                 ////////////////////
                 
                 clearContactFormEntries(contactsTable);

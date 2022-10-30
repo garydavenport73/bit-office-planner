@@ -42,11 +42,37 @@ function processCalendarCSVClick() {
 
 function buildCalendarTableElement(date) { //needs headers data
 
-    let tableElement = "";
+
+    //first go through all entries in the calendars dates
+    //if they meet the criteria, push them to an array, and add on their location/index in the base array
+    //order the array by start time
+    //use the array to build the table element
+    //(make sure the element contains the index)
+
+    let allRows=calendarDatabase["data"];
+    let filteredRows=[];
     let numberOfColumns = calendarDatabase["headers"].length;
     //let numberOfRows = daysEntries.length;
 
+    for (let i = 0; i < allRows.length; i++) {
+        if (
+            (date === allRows[i]["Start Date"]) ||
+            (date === allRows[i]["End Date"]) ||
+            ((date >= allRows[i]["Start Date"]) && (date <= allRows[i]["End Date"]))
+        ) {
+            let tempRow=JSON.parse(JSON.stringify(allRows[i]));
+            tempRow["intBaseIndex"]=i;
+            filteredRows.push(tempRow);
+            //for (let i = 0; i < numberOfRows; i++) {
+        }
+
+    }
+
+    destructiveSort(filteredRows,"Start Time");
+
     //start table
+
+    let tableElement = "";
     tableElement += "<table>";
 
     //build table header
@@ -58,25 +84,19 @@ function buildCalendarTableElement(date) { //needs headers data
     //build table body	
     tableElement += "<tbody>";
 
-    //go through all data in calendarDatabase
-    //if the row data has start date or end date on the date or in between, add the 
-    //informmation to the table
-
-    let tempData=JSON.parse(JSON.stringify(calendarDatabase["data"]));
-    //destructiveSort(tempData,"sort value");
-
-    for (let i = 0; i < tempData.length; i++) {
-        if (
-            (date === tempData[i]["Start Date"]) ||
-            (date === tempData[i]["End Date"]) ||
-            ((date >= tempData[i]["Start Date"]) && (date <= tempData[i]["End Date"]))
-        ) {
-
+    for (let i = 0; i < filteredRows.length; i++) {
+        // if (
+        //     (date === filteredRows[i]["Start Date"]) ||
+        //     (date === filteredRows[i]["End Date"]) ||
+        //     ((date >= filteredRows[i]["Start Date"]) && (date <= filteredRows[i]["End Date"]))
+        // ) 
+            {
+            
             //for (let i = 0; i < numberOfRows; i++) {
-            tableElement += "<tr id='calendar-table-row-" + i.toString() + "' onclick=\"selectCalendarEditForm(" + i.toString() + ")\">";
+            tableElement += "<tr id='calendar-table-row-" + i.toString() + "' onclick=\"selectCalendarEditForm(" + (filteredRows[i]["intBaseIndex"]).toString() + ")\">";
             for (let j = 0; j < numberOfColumns; j++) {
                 let fieldName = calendarDatabase["headers"][j];
-                tableElement += "<td><pre>" + tempData[i][fieldName] + "</pre></td>";
+                tableElement += "<td><pre>" + filteredRows[i][fieldName] + "</pre></td>";
             }
             tableElement += "</tr>";
             //}
@@ -103,10 +123,10 @@ function newCalendarEntry(table) {
     showMain("main-calendar-form")
 }
 
-function selectCalendarEditForm(clickedRowIndex) {
+function selectCalendarEditForm(calendarDatabaseRowIndex) {
     //show what's being edited
-    calendarEditFormMessage.innerHTML = document.getElementById("calendar-date").value + ": Entry " + clickedRowIndex.toString();
-    calendarEditForm.innerHTML = buildCalendarEditForm(clickedRowIndex);
+    calendarEditFormMessage.innerHTML = document.getElementById("calendar-date").value + ": Entry " + calendarDatabaseRowIndex.toString();
+    calendarEditForm.innerHTML = buildCalendarEditForm(calendarDatabaseRowIndex);
     showMain("main-calendar-form");
 }
 
@@ -187,8 +207,8 @@ function saveCalendarEntry() {
     if (row["Start Time"] === "") {
         row["Start Time"] = "00:00";
     }
-    row["sort value"] = row["Start Date"] + row["Start Time"];
-    console.log(row);
+    //row["sort value"] = row["Start Date"] + row["Start Time"];
+    //console.log(row);
 
 
     if (index >= 0) { //an existing entry
@@ -198,7 +218,7 @@ function saveCalendarEntry() {
     }
     clearCalendarFormEntries();
 
-    destructiveSort(calendarDatabase["data"], "sort value");
+    //destructiveSort(calendarDatabase["data"], "sort value");
 
     calendarTable.innerHTML = buildCalendarTableElement(date);
 
@@ -477,8 +497,8 @@ function loadOutlookCSV(){
             //"sort value" is not added to header, as it is used in the program but not for display saving etc.
 			
             //when data is loaded in or changed, sort value is added and calendar always sorted
-            addSortValueToCalendarData();
-            destructiveSort(calendarDatabase["data"], "sort value");
+            //addSortValueToCalendarData();
+            //destructiveSort(calendarDatabase["data"], "sort value");
             ////////////////////
 
 
