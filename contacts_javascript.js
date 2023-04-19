@@ -2,7 +2,7 @@ initializeContactsApp();
 
 function initializeContactsApp() {
     fillInEmptyPropertyValues(contactsTable);
-    document.getElementById("contacts-table-name").innerHTML = contactsTable["name"];
+    //document.getElementById("contacts-table-name").innerHTML = contactsTable["name"];
     contactsTableElement.innerHTML = buildContactsTableElement(contactsTable);
     contactsEditForm.innerHTML = buildContactsEditForm(contactsTable, -1);
 }
@@ -48,7 +48,7 @@ function newContactsEntry() {
     //show what's being edited
     contactsEditFormMessage.innerHTML = contactsTable["name"] + ": New Entry";
     contactsEditForm.innerHTML = buildContactsEditForm(contactsTable, -1);
-    showMain("main-contacts-form")
+    showPlannerDiv("planner-contacts-form");
 }
 
 function selectContactsEditForm(clickedRow) {
@@ -56,7 +56,7 @@ function selectContactsEditForm(clickedRow) {
     let index = parseInt(clickedRow.id.split("-")[3]);
     contactsEditFormMessage.innerHTML = contactsTable["name"] + ": Entry " + index.toString();
     contactsEditForm.innerHTML = buildContactsEditForm(contactsTable, index);
-    showMain("main-contacts-form");
+    showPlannerDiv("planner-contacts-form");
 }
 
 function buildContactsEditForm(contactsTable, index) {
@@ -113,7 +113,7 @@ function saveContactsEntry() {
     }
     clearContactFormEntries(contactsTable);
     contactsTableElement.innerHTML = buildContactsTableElement(contactsTable);
-    showMain("main-contacts-table");
+    showPlannerDiv("planner-contacts-table");
 }
 
 function deleteContactsEntry() {
@@ -125,13 +125,13 @@ function deleteContactsEntry() {
     }
     clearContactFormEntries(contactsTable);
     contactsTableElement.innerHTML = buildContactsTableElement(contactsTable);
-    showMain("main-contacts-table");
+    showPlannerDiv("planner-contacts-table");
 }
 
 function cancelContactsEntry() {
     clearContactFormEntries(contactsTable);
     contactsTableElement.innerHTML = buildContactsTableElement(contactsTable);
-    showMain("main-contacts-table");
+    showPlannerDiv("planner-contacts-table");
 }
 
 
@@ -232,7 +232,7 @@ function loadOutlookContactsCSV(){
 			}
 
 			contactsTableElement.innerHTML = buildContactsTableElement(contactsTable);
-			showMain("main-contacts-table");
+			showPlannerDiv("planner-contacts-table");
 			//makeCalendar();
 		};
 		fileReader.readAsText(inputFile, "UTF-8");
@@ -260,7 +260,7 @@ function importVCF() {
                 fileContents = fileLoadedEvent.target.result;
                 readInAllVcards(fileContents);
                 contactsTableElement.innerHTML = buildContactsTableElement(contactsTable);
-                showMain("main-contacts-table");
+                showPlannerDiv("planner-contacts-table");
                 //makeCalendar();
             };
             fileReader.readAsText(inputFile, "UTF-8");

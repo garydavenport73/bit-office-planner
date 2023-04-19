@@ -10,7 +10,7 @@ function initializeCalendarApp() {
 
 function processCalendarHome() {
     makeCalendar();
-    showMain("main-calendar-start");
+    showPlannerDiv("planner-calendar-start");
 }
 
 function processCalendarCSVClick() {
@@ -120,14 +120,14 @@ function newCalendarEntry(table) {
     //show what's being edited
     calendarEditFormMessage.innerHTML = document.getElementById("calendar-date").value + ": New Entry";
     calendarEditForm.innerHTML = buildCalendarEditForm(-1);
-    showMain("main-calendar-form")
+    showPlannerDiv("planner-calendar-form")
 }
 
 function selectCalendarEditForm(calendarDatabaseRowIndex) {
     //show what's being edited
     calendarEditFormMessage.innerHTML = document.getElementById("calendar-date").value + ": Entry " + calendarDatabaseRowIndex.toString();
     calendarEditForm.innerHTML = buildCalendarEditForm(calendarDatabaseRowIndex);
-    showMain("main-calendar-form");
+    showPlannerDiv("planner-calendar-form");
 }
 
 function buildCalendarEditForm(index) {
@@ -223,13 +223,13 @@ function saveCalendarEntry() {
     calendarTable.innerHTML = buildCalendarTableElement(date);
 
 
-    showMain("main-calendar-table");
+    showPlannerDiv("planner-calendar-table");
 }
 
 function purgeCalendar() {
     //let dates = calendarDatabase["dates"];
     //for (let date in dates) {
-    //    console.log(date);
+    //    console.log(date);cancelCalend
     //    console.log(dates[date]["data"]);
     //    console.log(dates[date]["data"].length);
     //    if (dates[date]["data"].length === 0) {
@@ -248,14 +248,14 @@ function deleteCalendarEntry() {
     }
     clearCalendarFormEntries();
     calendarTable.innerHTML = buildCalendarTableElement(date);
-    showMain("main-calendar-table");
+    showPlannerDiv("planner-calendar-table");
 }
 
 function cancelCalendarEntry() {
     let date = document.getElementById("calendar-date").value;
     clearCalendarFormEntries();
     calendarTable.innerHTML = buildCalendarTableElement(date);
-    showMain("main-calendar-table");
+    showPlannerDiv("planner-calendar-table");
 }
 
 function clearCalendarFormEntries() {
@@ -360,7 +360,7 @@ function openDayEntry(evt) {
 
     document.getElementById("calendar-table-name").innerHTML = daysAbbreviations[getDayOfWeek(theDate)] + " " + theDate + "</span>";
     calendarTable.innerHTML = buildCalendarTableElement(theDate);
-    showMain("main-calendar-table");
+    showPlannerDiv("planner-calendar-table");
 }
 
 function colorCalendarEntries() {
@@ -503,7 +503,7 @@ function loadOutlookCSV(){
 
 
 			//calendarTable.innerHTML = buildCalendarTableElement(date);
-			showMain("main-calendar-start");
+			showPlannerDiv("planner-calendar-start");
 			makeCalendar();
 		};
 		fileReader.readAsText(inputFile, "UTF-8");

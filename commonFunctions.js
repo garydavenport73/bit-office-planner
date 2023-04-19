@@ -220,7 +220,14 @@ function showMain(id) {
     }
     document.getElementById(id).style.display = "flex";
 }
-
+function showPlannerDiv(id) {
+    //console.log("show mains called with " + id);
+    let divs = document.getElementsByClassName('planner-div');
+    for (let div of divs) {
+        div.style.display = "none";
+    }
+    document.getElementById(id).style.display = "unset";
+}
 //          clipboard function          //
 function copyToClipBoard(str) {
     //https://techoverflow.net/2018/03/30/copying-strings-to-the-clipboard-using-pure-javascript/

@@ -1,729 +1,67 @@
-/* --------------Layout------------------- */
-
-* {
+html {
     box-sizing: border-box;
-}
-
-html {
-    /*this is the light color*/
-    background-color: lightblue;
-}
-
-input:invalid {
-    background-color: orange;
-}
-
-
-/* -------------------general tables----------------------- */
-
-thead {
-    background-color: #E0E0E0;
-}
-
-tr:hover:not(#tables-table>thead>tr, #tables-table>tbody>tr, #tables-table>tfoot>tr, #calculator-table tr, #special-calendar tr) {
-    background-color: white;
-}
-
-#tables-table th:hover:not(:first-of-type),
-#tables-table td:first-of-type:hover {
-    background-color: white;
-}
-
-th:hover {
-    background-color: lightgrey;
-}
-
-.table-container {
-    display: block;
-    overflow-x: auto;
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
-    text-align: center;
-}
-
-table {
-    background-color: lightblue;
-}
-
-table {
-    min-width: 100%;
-}
-
-tr {
-    text-align: left;
-    /* prevents collaps of row, acts like min-height in other elements */
-    height: 1rem;
-}
-
-td {
-    background-color: yellow;
-}
-
-
-/* ---------------------general mains--------------------- */
-
-main {
-    width: 320px;
-    margin: auto;
-    /* width: 320px;
-    margin: auto; */
-    /*this is the dark color */
-    background-color: yellow;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 20px;
-}
-
-main>* {
-    width: 90%;
-}
-
-main>div:not(#document-parent, #calculator-result-row),
-#calendar-edit-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-main>nav {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-
-/* body>nav {
-    text-align: center;
-    width: 320px;
-    margin: auto;
-    background-color: blueviolet;
-} */
-
-#top-nav,
-#back-nav {
-    background-color: yellow;
-}
-
-main input,
-main textarea,
-main>select
- {
-    width: 240px;
-}
-
-main>button {
-    width: 120px;
-}
-
-
-/* --------------general styling -------------------- */
-
-select,
-main>input {
-    text-align: center;
-}
-
-
-/* ---------calendar app layout --------------- */
-
-#main-calendar-start>button {
-    width: 240px;
-}
-
-#calendar-date {
-    height: 3rem;
-    text-align: center;
-    font-size: 1.4em;
-    /* added after using as hidden input */
-    display: none;
-}
-
-#special-calendar {
-    width: 240px;
-}
-
-#special-calendar table td {
-    height: 2rem;
-    text-align: center;
-    width: 2rem;
-}
-
-#calendar-table>table {
-    min-height: 150px;
-    margin: auto;
-    display: block;
-}
-
-/*, #contacts-table td:nth-of-type(1)*/
-
-#calendar-table th:nth-of-type(6) {
-    /*display: table-cell;*/
-    width: 100%;
-}
-
-#special-calendar table,
-#special-calendar tr,
-#special-calendar td,
-#month-chooser {
-    /*font-family: 'Courier New', Courier, monospace;*/
-    font-family: Arial, Verdana, Helvetica, Tahoma, sans-serif;
     font-size: 16px;
-    padding: 0;
-    margin: 0;
-    border-radius: 0;
-    background-color: white;
 }
 
-#special-calendar .return-calendar-date:hover {
-    background-color: #E0E0E0;
-    ;
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
 }
 
-.return-calendar-date:hover {
-    background-color: white;
-}
-
-
-/* --------------tables app layout -------------------- */
-
-#tables-table {
-    display: block;
-    margin: auto;
-    /* background-color: lightblue; */
-    min-width: 100%;
-}
-
-.tables-table-row-number {
-    min-width: 1rem;
-    text-align: center;
-}
-
-
-/* these 2 used together to apply min width to anything
-in between first and last table header */
-
-#tables-table th:not(:last-of-type) {
-    /* background-color: red; */
-    min-width: 5rem;
-}
-
-#tables-table th:first-of-type {
-    min-width: 0;
-}
-
-#tables-table input[type="text"] {
-    padding: 0;
-    margin: 0;
-    border: 0px solid orange;
-}
-
-#tables-table {
-    border-spacing: 0;
-    border-collapse: collapse;
-    min-height: 150px;
-}
-
-#tables-table td:not(.tables-table-row-number) {
-    padding: 0;
-    border: 1px solid grey;
-    background-color: white;
-    border-radius: 0;
-}
-
-
-/* these 2 used together to apply min width to anything
-in between first and last table header */
-
-#tables-table td {
-    /* max-width: 50px; */
-    width: auto;
-}
-
-#add-column{
-background-color:#BDBDBD;
-}
-#add-row:hover, #add-column:hover{
-background-color:white;
-border-radius:5px;
-}
-
-#main-tables-header-form input,
-#main-tables-header-form select,
-#main-tables-header-form button,
-#main-tables-row-form select,
-#main-tables-row-form button {
-    width: 200px;
-}
-
-#add-column,
-#add-row,
-#blank-th {
-    width: auto;
-}
-
-#tables-table input {
-    /* background-color: aqua; */
-    width: 100%;
-}
-
-
-/* -------------contacts app layout----------------- */
-
-
-/* makes scroll right start at left */
-
-#contacts-table>table {
-    margin: auto;
-    display: block;
-    min-height: 150px;
-}
-
-
-/* keeps cell phone column from collapsing
-
-#contacts-table>table>thead>tr>th:nth-of-type(4),
-#contacts-table>table>thead>tr>th:nth-of-type(5),
-#contacts-table>table>thead>tr>th:nth-of-type(6) {
-    min-width: 7rem;
-}
-*/
-
-
-/* hides everything, then shows next 2 columns, the first widest */
-
-#contacts-table th,
-#contacts-table td {
-    display: none;
-}
-
-#contacts-table td:nth-of-type(1),
-#contacts-table th:nth-of-type(1) {
-    display: table-cell;
-    max-width:7rem;
-    overflow-wrap:break-word;
-}
-
-#contacts-table th:nth-of-type(2),
-#contacts-table td:nth-of-type(2) {
-    /*display: table-cell;
-    max-width: 7rem;
-    overflow-wrap:break-word;*/
-    display:none;
-}
-
-#contacts-table th:nth-of-type(3),
-#contacts-table td:nth-of-type(3) {
-    display: table-cell;
-        max-width:5rem;
-     overflow-wrap:break-word;
-}
-
-#contacts-table th:nth-of-type(4),
-#contacts-table td:nth-of-type(4) {
-    display: table-cell;
-    width:7rem;
-    /*max-width:7rem;*/
-     overflow-wrap:break-word;
-}
-
-
-
-
-
-/* hides everything, then shows next 2 columns, the first widest */
-
-
-/*       contacts table*/
-
-#add-column,
-#add-row,
-#blank-th {
-    width: auto;
-}
-
-#tables-table input {
-    /* background-color: aqua; */
-    width: 100%;
-}
-
-select,
-main>input {
-    text-align: center;
-}
-
-h1:not(#document-result h1) {
-    background-color: lightblue;
-    text-align: center;
-}
-
-nav {
-    background-color: lightblue;
-}
-
-
-/* -----------notes app layout----------------- */
-
-#note {
-    height: 350px;
-    max-width: 90%;
-}
-
-
-/***********write layout and css****************/
-
-.mono {
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.serif {
-    font-family: Georgia, 'Times New Roman', Garamond, Times, serif;
-}
-
-.sans {
-    font-family: Arial, Verdana, Helvetica, Tahoma, sans-serif;
-}
-
-#document-settings,
-#edit-bar {
-    width: 90%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
     margin: 0;
     padding: 0;
-    background-color: cadetblue;
-    border: 1px solid black;
-    /* min-height: 30px; */
+    font-weight: normal;
 }
 
-#text-editor {
-    height: 100px;
+ol,
+ul {
+    list-style: none;
 }
 
-#text-editor {
-    width: 90%;
-    max-width: 90%;
-    overflow-wrap: break-word;
-    min-height: 100px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+img {
+    max-width: 100%;
+    height: auto;
 }
 
-#document-parent {
-    margin: 0;
-    padding: 0;
-    width: 90%;
-    background-color: lightgoldenrodyellow;
-}
-
-
-/*  Needed for printing in notes, also placed in notes print function*/
-
-pre {
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    margin: 0;
-    padding: 0;
-}
-
-a {
-    text-decoration: none;
-    color: black;
-}
-
-a:hover {
-    color: mediumblue;
-}
-
-
-/*  CALCULATOR STUFF ENDS*/
-
-
-/***************add on styles can be switched out****************************/
-
+/* RESET FINSIHED */
 html {
-    /*this is the light color*/
-    /* background-color: lightblue; */
-    background-color: #BDBDBD;
+    background-color: aliceblue;
+}
+h1,h2{
+    color:white;
+    background-color: blue;
+}
+main{
+    background-color: lightblue;
 }
 
 body {
-    background-color: #E0E0E0;
     width: 320px;
+    background-color: lightskyblue;
     margin: auto;
-}
-
-main,
-td,
-nav>button {
-    /*this is the background to main color */
-    /* background-color: yellow; */
-    background-color: #E0E0E0;
-    border-radius: 5px;
-}
-
-main>button {
-    /* background-color: red; */
-    background-color: #BDBDBD;
-    min-height: 30px;
-    border-radius: 5px;
-    padding: 3px;
-    margin: 2px;
-}
-
-main>button:hover {
-    background-color: #E0E0E0;
-}
-
-nav>button:hover {
-    background-color: #BDBDBD;
-}
-
-#top-nav button,
-#back-nav button {
     padding: 5px;
-    margin: 1px;
-    min-height: 25px;
+    box-sizing: border-box;
 }
 
-#main-notes button,
-#file-bar button,
-#main-tables-table button,
-#main-contacts-table button,
-#main-calendar-table button,
-#main-calendar-start button {
-    padding: 4px;
-    margin: 1px;
-    min-height: 25px;
-}
-
-h1:not(#document-result h1) {
-    background-color: mediumblue;
-    text-align: center;
-    padding: 2px;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-h1:not(#document-result h1) {
-    color: lavender;
-    font-family: Arial, Helvetica, sans-serif;
-    width: 320px;
-    margin: auto;
-    border-radius: 0;
-}
-
-nav:not(#document-settings, #edit-bar, #top-nav, #back-nav) {
-    border-radius: 5px;
-    margin: 5px;
-    /* background-color: lightblue; */
-    background-color: #BDBDBD;
-}
-
-#top-nav,
-#back-nav {
-    background-color: mediumblue;
-    width: 320px;
-    margin: auto;
+h1,
+h2,
+h3,
+nav {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    flex-wrap: wrap;
 }
-
-#top-nav button,
-#back-nav button {
-    font-size: 1.4rem;
-}
-
-table {
-    border-radius: 5px;
-    /* background-color: lightblue; */
-    background-color: #BDBDBD;
-}
-
-input:not(#tables-table input, #calendar-date, #calculator-input),
-select {
-    /* background-color: coral; */
-    background-color: #F5F5F5;
-    min-height: 30px;
-    border-radius: 5px;
-}
-
-button,
-table {
-    border: 1px solid grey;
-    padding-left: 4px;
-    padding-right: 4px;
-}
-
-
-/* MAIN COLORS FOR THE APPS 
-	main        mediumblue
-	notes       khaki
-	write       cadetblue
-	contacts    indigo
-	calendar    darkorange
-	tables      forestgreen
-	calculator  dimgrey
-*/
-
-#main-notes h2 {
-    background-color: khaki;
-    border: 1px solid grey;
-    text-align: center;
-    padding: 2px;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-#main-startup h2,
-#main-help h2 {
-    background-color: mediumblue;
-    color: lavender;
-    text-align: center;
-    padding: 2px;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-#main-write h2:not(#document-result h2) {
-    background-color: cadetblue;
-    text-align: center;
-    padding: 2px;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: antiquewhite;
-    border: 1px solid grey;
-}
-
-#main-contacts-table h2,
-#main-contacts-form h2 {
-    background-color: indigo;
-    text-align: center;
-    padding: 2px;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: antiquewhite;
-    border: 1px solid grey;
-}
-
-#main-calendar-start h2,
-#main-calendar-table h2,
-#main-calendar-form h2,
-#main-calendar-start h3,
-#main-calendar-table h3,
-#main-calendar-form h3 {
-    background-color: darkorange;
-    text-align: center;
-    padding: 2px;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    border: 1px solid grey;
-}
-
-#main-tables-table h2,
-#main-tables-header-form h2,
-#main-tables-row-form h2,
-#main-tables-table h3,
-#main-tables-header-form h3,
-#main-tables-row-form h3 {
-    background-color: forestgreen;
-    text-align: center;
-    padding: 2px;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: antiquewhite;
-    border: 1px solid grey;
-    /* color: ghostwhite; */
-}
-
-#main-calculator h2 {
-    background-color: dimgrey;
-    text-align: center;
-    padding: 2px;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: antiquewhite;
-    border: 1px solid grey;
-}
-
-#document-result * {
-    background-color: unset;
-    width: unset;
-    text-align: unset;
-    border-radius: unset;
-    margin-left: unset;
-    margin-right: unset;
-    width: unset;
-    padding-bottom: unset;
-    align-items: unset;
-    border-radius: unset;
-    margin: unset;
-    padding: unset;
-}
-
-#document-result {
-    overflow-wrap: break-word;
-    min-height: 100px;
-    width: auto;
-    background-color: lightgoldenrodyellow;
-    white-space: pre-wrap;
-}
-
-
-/* ALREADY SET FOR PHONE*/
-
-main {
-    border: 1px solid grey;
-}
-
-#back-nav {
-    display: none;
-}
-
-
-/*  CALCULATOR STUFF */
-
-#calculator-table {
-    width: 90%;
-    min-width: 0%;
-}
-
-#calculator-table td button {
-    font-size: 2rem;
-    width: 100%;
-    height: 4rem;
-}
-
-.special-calculator-button {
-    background-color: #ffcc33;
-    border: 1px solid grey;
-}
-
-#last-calculator-expression {
-    overflow-wrap: anywhere;
-    min-height: 18px;
-    color: grey;
-}
-
-#calculator-input {
-    width: 90%;
-    height: 30px;
-    font-size: 1.4rem;
-    text-align: right;
-}
-
-#calc-clr button {
-    width: 50%;
-    font-size: 1.4rem;
-    padding: 5px;
-}
-
-
-/*Generic Footer Styling*/
 
 footer {
     position: fixed;
@@ -732,68 +70,83 @@ footer {
     transform: translate(-50%, 0%);
 }
 
-
-/* TABLET*/
-
-@media only screen and (min-width: 600px) {
-    /* body>nav, */
-    body,
-    #main-notes,
-    #main-write,
-    #main-contacts-table,
-    #main-calendar-table,
-    #main-tables-table,
-    #top-nav,
-    #back-nav,
-    h1:not(#document-result h1) {
-        width: 600px;
-    }
-    /* undoes the hiding of everything but first 2 cells */
-    #contacts-table th,
-    #contacts-table td {
-        display: table-cell;
-    }
-    
+button {
+    padding: 5px;
 }
 
-
-/*DESKTOP*/
-
-@media only screen and (min-width: 900px) {
-    /* body>nav, */
-    body,
-    #main-notes,
-    #main-write,
-    #main-contacts-table,
-    #main-calendar-table,
-    #main-tables-table,
-    #top-nav,
-    #back-nav,
-    h1:not(#document-result h1) {
-        width: 900px;
-    }
+#main-planner {
+    display: flex;
+    flex-direction: column;
 }
 
-button,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    /* https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
-    cursor: default;
-    -webkit-touch-callout: none;
-    /* iOS Safari */
-    -webkit-user-select: none;
-    /* Safari */
-    -khtml-user-select: none;
-    /* Konqueror HTML */
-    -moz-user-select: none;
-    /* Old versions of Firefox */
-    -ms-user-select: none;
-    /* Internet Explorer/Edge */
-    user-select: none;
-    /* Non-prefixed version, currently
-   supported by Chrome, Edge, Opera and Firefox */
+#planner-div {
+    display: flex;
+    flex-direction: column;
+}
+
+#planner-contacts-form *,
+#planner-calendar-form * {
+    width: 100%;
+    display: auto;
+    box-sizing: border-box;
+}
+
+.table-container table,
+.table-container table td,
+.table-container table th {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.table-container pre {
+    /* https://stackoverflow.com/questions/248011/how-do-i-wrap-text-in-a-pre-tag */
+    white-space: pre-wrap;
+    font-size: 12px;
+    word-break:break-all;
+}
+
+.table-container table {
+    box-sizing: border-box;
+    margin: auto;
+    width: 100%;
+    min-height: 100px;
+}
+
+#contacts-table th,
+#contacts-table td,
+#calendar-table th,
+#calendar-table td {
+    display: none;
+}
+
+#calendar-table th:nth-of-type(1),
+#calendar-table th:nth-of-type(3),
+#calendar-table th:nth-of-type(6),
+#calendar-table td:nth-of-type(1),
+#calendar-table td:nth-of-type(3),
+#calendar-table td:nth-of-type(6) {
+    display: table-cell;
+}
+
+#contacts-table td:nth-of-type(1),
+#contacts-table th:nth-of-type(1),
+#contacts-table th:nth-of-type(4),
+#contacts-table td:nth-of-type(4) {
+    display: table-cell;
+    /* max-width:7rem; */
+    /* overflow-wrap:break-word; */
+}
+
+#contacts-table th:nth-of-type(3),
+#contacts-table td:nth-of-type(3) {
+    display: table-cell;
+    /* max-width:5rem;
+     overflow-wrap:break-word; */
+}
+
+#calendar-container {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

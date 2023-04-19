@@ -9,82 +9,95 @@
     <link id="favicon-link" rel="icon" type="image/x-icon" href="">
     <title>bitOffice Planner</title>
 </head>
-<h1 onclick="alert(license);">bitOffice <sub>planner</sub></h1>
+<h1 onclick="alert(license);">bitOffice</h1>
+
 <body>
     <nav id="top-nav">
-        <button onclick="showMain('main-startup');">&#128194;</button>
-        <button onclick="showMain('main-contacts-table');" >&#9742;</button>
-        <button onclick="showMain('main-calendar-start');makeCalendar();">&#128197;</button>
-        <button onclick="showMain('main-help');">?</button>
+        <button>&#9742;&#128197;</button>
     </nav>
-    <nav id="back-nav">
-        <button onclick="processGoBackFromApp(currentApp);">&#127968;</button>
-    </nav>
-    <main id="main-startup">
-        <h2>Load/Save</h2>
-        <button id="startup-load-button" onclick="loadCombinedDatabase()">&#128194; Load</button>
-        <button id="saveButton" onclick="saveCombinedDatabase()">&#128193; Save</button>
-    </main>
-    <main id="main-help">
-        <h2>Help</h2>
-		<p>You can:
-			<ol>
-				<li>Load/Save your data to its native format.  This will save both the Contacts and Calendar in one file.</li>
-				<li>Import/Export to CSV.  This will import or export CSV from MS Outlook.</li>
-			</ol>
-			<p>Note: the CSV is compatible with Outlook.  When loading into Google Contacts or Calendar, import as if Outlook CSV.
-			Outlook has more fields, so if they are present will be shown in the Notes or Details instead.</p>
-		</p>
-    </main>
-    <main id="main-contacts-table">
-        <h2 id="contacts-table-name">Contacts</h2>
-        <nav>
-            <!--<button onclick="processCSVClick(contactsTable);">CSV</button>-->
-            <button onclick="loadOutlookContactsCSV();">&#128194; Import CSV</button>
-			<button onclick="saveOutlookContactsCSV();">&#128193; Export CSV</button>
-            <button onclick="importVCF();">&#128193; Import .vcf</button>
-            <button onclick="exportVCF();">&#128193; Export .vcf</button>
-			<button onclick='newContactsEntry();'>+ New Contact</button>
+    <main id="main-planner">
+        <h2>Planner</h2>
+        <nav id="planner-ribbon">
+            <button onclick="showPlannerDiv('planner-startup');">&#128194;</button>
+            <button onclick="showPlannerDiv('planner-contacts-table');">&#9742;</button>
+            <button onclick="showPlannerDiv('planner-calendar-start');makeCalendar();">&#128197;</button>
+            <button onclick="showPlannerDiv('planner-planner-help');">?</button>
         </nav>
+        <div class="planner-div" id="planner-startup">
+            <h3>Load/Save</h3>
+            <nav>
+            <button id="startup-load-button" onclick="loadCombinedDatabase()">&#128194; Load</button>
+            <button id="saveButton" onclick="saveCombinedDatabase()">&#128193; Save</button>
+        </nav>
+        </div>
+        <div class="planner-div" id="planner-planner-help">
+            <h3>Planner-Help</h3>
+            <p>You can:
+            <ol>
+                <li>Load/Save your data to its native format. This will save both the Contacts and Calendar in one file.
+                </li>
+                <li>Import/Export to CSV. This will import or export CSV from MS Outlook.</li>
+            </ol>
+            <p>Note: the CSV is compatible with Outlook. When loading into Google Contacts or Calendar, import as if
+                Outlook CSV.
+                Outlook has more fields, so if they are present will be shown in the Notes or Details instead.</p>
+            </p>
+        </div>
+        <div class="planner-div" id="planner-contacts-table">
+            <h3>Planner-Contacts</h3>
+            <nav>
+                <!--<button onclick="processCSVClick(contactsTable);">CSV</button>-->
+                <button onclick="loadOutlookContactsCSV();">&#128194; Import CSV</button>
+                <button onclick="saveOutlookContactsCSV();">&#128193; Export CSV</button>
+                <button onclick="importVCF();">&#128193; Import .vcf</button>
+                <button onclick="exportVCF();">&#128193; Export .vcf</button>
+                <button onclick='newContactsEntry();'>+ New Contact</button>
+            </nav>
 
-        <div id="contacts-table" class="table-container"></div>
-    </main>
-    <main id="main-contacts-form">
-        <h2>Contacts</h2>
-        <div id="contacts-edit-form-message"></div>
-        <div id="contacts-edit-form"></div>
-        <button onclick='saveContactsEntry();'>Save</button>
-        <button onclick='deleteContactsEntry();'>Delete</button>
-        <button onclick='cancelContactsEntry();'>Cancel</button>
-    </main>
-    <main id="main-calendar-start">
-        <h2>Calendar</h2>
-        <nav>
-            <button onclick="loadOutlookCSV();">&#128194; Import</button>
-			<button onclick="createOutlookCSV();">&#128193; Export</button>
-			<button onclick="clearCalendar();">Clear Calendar</button>
-		</nav>
-        <div><input type='date' id="calendar-date"></div>
-        <input id="month-chooser" type="month">
-        <div id="special-calendar"></div>
-    </main>
-    <main id="main-calendar-table">
-        <h2>Calendar</h2>
-        <h3 id="calendar-table-name"></h3>
-        <nav>
-            <button onclick='newCalendarEntry();'>+ New Entry</button>
-            <button onclick="processCalendarHome();">Back to Main Calendar</button>
-            <button onclick="processCalendarCSVClick();">CSV</button>
+            <div id="contacts-table" class="table-container"></div>
+        </div>
+        <div class="planner-div" id="planner-contacts-form">
+            <h3>Planner-Contacts Form</h3>
+            <div id="contacts-edit-form-message"></div>
+            <div id="contacts-edit-form"></div>
+            <nav>
+            <button onclick='saveContactsEntry();'>Save</button>
+            <button onclick='deleteContactsEntry();'>Delete</button>
+            <button onclick='cancelContactsEntry();'>Cancel</button>
         </nav>
-        <div id="calendar-table" class="table-container"></div>
-    </main>
-    <main id="main-calendar-form">
-        <h2>Calendar</h2>
-        <h3 id="calendar-edit-form-message"></h3>
-        <div id="calendar-edit-form"></div>
-        <button onclick='saveCalendarEntry();'>Save</button>
-        <button onclick='deleteCalendarEntry();'>Delete</button>
-        <button onclick='cancelCalendarEntry();'>Cancel</button>
+        </div>
+        <div class="planner-div" id="planner-calendar-start">
+            <h3>Planner-Calendar</h3>
+            <nav>
+                <button onclick="loadOutlookCSV();">&#128194; Import</button>
+                <button onclick="createOutlookCSV();">&#128193; Export</button>
+                <button onclick="clearCalendar();">Clear Calendar</button>
+            </nav>
+            <div id="calendar-container">
+            <div><input type='date' id="calendar-date"></div>
+            <input id="month-chooser" type="month">
+            <div id="special-calendar"></div>
+        </div>
+        </div>
+        <div class="planner-div" id="planner-calendar-table">
+            <h3 id="calendar-table-name"></h3>
+            <nav>
+                <button onclick='newCalendarEntry();'>+ New Entry</button>
+                <button onclick="processCalendarHome();">Back to Main Calendar</button>
+                <button onclick="processCalendarCSVClick();">CSV</button>
+            </nav>
+            <div id="calendar-table" class="table-container"></div>
+        </div>
+        <div class="planner-div" id="planner-calendar-form">
+            <h3 id="calendar-edit-form-message"></h3>
+            <div id="calendar-edit-form"></div>
+            <nav>
+                <button onclick='saveCalendarEntry();'>Save</button>
+                <button onclick='deleteCalendarEntry();'>Delete</button>
+                <button onclick='cancelCalendarEntry();'>Cancel</button>
+            </nav>
+
+        </div>
     </main>
 
 
@@ -105,12 +118,12 @@
     <script src="calendar_javascript.js"></script>
     <script src="contacts_javascript.js"></script>
     <script>
-		
-    showMain('main-startup');
-	makeFavicon("p", "white", "mediumblue");
-	window.onbeforeunload = askConfirm;
-</script>
-        
+
+        showPlannerDiv('planner-startup');
+        makeFavicon("p", "white", "mediumblue");
+        window.onbeforeunload = askConfirm;
+    </script>
+
 
 </body>
 
