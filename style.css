@@ -79,9 +79,10 @@ button {
     flex-direction: column;
 }
 
-#planner-div {
-    display: flex;
-    flex-direction: column;
+.planner-div {
+    /* display: flex;
+    flex-direction: column; */
+    min-height: 320px;
 }
 
 #planner-contacts-form *,
@@ -109,7 +110,7 @@ button {
     box-sizing: border-box;
     margin: auto;
     width: 100%;
-    min-height: 100px;
+    /* min-height: 100px; */
 }
 
 #contacts-table th,
@@ -152,4 +153,7 @@ button {
 }
 #special-calendar{
     background-color: snow;
+}
+#calendar-date{
+    display: none;
 }
