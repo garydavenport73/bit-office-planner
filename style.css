@@ -38,12 +38,49 @@ img {
 html {
     background-color: aliceblue;
 }
-h1,h2{
-    color:white;
-    background-color: blue;
+h1{
+    color:lavender;
+    background-color: mediumblue;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    padding: 2px;
+}
+#top-nav{
+    color: white;
+    background-color: mediumblue;
+    padding-bottom: 2px;
+}
+#top-nav button{
+    font-size: 1.4rem;
+    padding: 5px;
+    margin: 1px;
+    min-height: 25px;
+    background-color: #e0e0e0;
+    border: #e0e0e0;
+    border-radius: 5px;
+}
+h2{
+    margin: 16px;
+    /* padding: 2px; */
+    /* background-color: mediumblue; */
+    font-weight: bold;
+    color: lavender;
+    text-align: center;
+    padding: 2px;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#main-planner h2{
+    color: white;
+    background-color: purple;
+}
+#main-notes h2{
+    background-color: orange;
 }
 main{
-    background-color: lightblue;
+    background-color: #e0e0e0;
+    border: 1px solid orange;
 }
 
 body {
@@ -74,7 +111,7 @@ button {
     padding: 5px;
 }
 
-#main-planner {
+#main-planner, #main-notes {
     display: flex;
     flex-direction: column;
 }
@@ -82,6 +119,9 @@ button {
 .planner-div {
     /* display: flex;
     flex-direction: column; */
+    /* min-height: 320px; */
+}
+main{
     min-height: 320px;
 }
 
@@ -156,4 +196,11 @@ button {
 }
 #calendar-date{
     display: none;
+}
+main h3{
+    background-color:#e0e0e0;
+}
+.nested-menu:hover{
+    color: snow;
+    background-color: grey;
 }

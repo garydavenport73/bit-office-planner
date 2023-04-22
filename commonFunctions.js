@@ -1,140 +1,27 @@
-function loadCombinedDatabase() {
-    //let proceed = false;
-    //if (compareCombinedDatabase === initialCombinedDatabase) {
-    //    proceed = true;
-    //} else {
-    //    proceed = confirm("This will overwrite current personal database");
-    //}
-    //if (proceed) 
-    //{
-        let fileContents = "";
-        let inputTypeIsFile = document.createElement('input');
-        inputTypeIsFile.type = "file";
-        inputTypeIsFile.accept = ".bof";
-        inputTypeIsFile.addEventListener("change", function() {
-            let inputFile = inputTypeIsFile.files[0];
-            let fileReader = new FileReader();
-            fileReader.onload = function(fileLoadedEvent) {
-                fileContents = fileLoadedEvent.target.result;
-                combinedDatabase = JSON.parse(fileContents);
-                //compareCombinedDatabase = JSON.stringify(combinedDatabase);
-                contactsTable = combinedDatabase["contacts"];
-                calendarDatabase = combinedDatabase["calendar"];
 
-                //when data is loaded in or changed, sort value is added and calendar always sorted
-                //addSortValueToCalendarData();
-                //destructiveSort(calendarDatabase["data"], "sort value");
-                ////////////////////
-                
-                clearContactFormEntries(contactsTable);
-                contactsTableElement.innerHTML = buildContactsTableElement(contactsTable);
-                makeCalendar();
-            };
-
-            fileReader.readAsText(inputFile, "UTF-8");
-        });
-        inputTypeIsFile.click();
-    //}
-
-}
-
-function saveCombinedDatabase() {
-    purgeCalendar();
-    let str = JSON.stringify(combinedDatabase);
-    let baseFilename = "bitOfficePlanner" + getTodaysDate();
-    saveStringToTextFile(str, baseFilename, ".bof");
-    //compareCombinedDatabase = JSON.stringify(combinedDatabase);
-}
-
-function processGoToApp(theApp) {
-    if ((theApp === 'contacts') || (theApp === 'calendar')) {
-        compareCombinedDatabase = JSON.stringify(combinedDatabase);
-    }
-    if (theApp === 'tables') {
-        compareTablesTable = JSON.stringify(tablesTable);
-    }
-    if (theApp === 'notes') {
-        compareNoteValue = note.value;
-    }
-    if (theApp === 'write') {
-        compareWriteData = makeCompareWriteData();
-    }
-    currentApp = theApp;
-    document.getElementById('top-nav').style.display = "none";
-    document.getElementById('back-nav').style.display = "flex";
-}
-
-function processGoBackFromApp(currentApp) {
-    console.log("process check save for " + currentApp);
-    if ((currentApp === "contacts") || (currentApp === "calendar")) {
-        if (JSON.stringify(combinedDatabase) != compareCombinedDatabase) {
-            if (confirm("The database has changed, save the changes to a file?")) {
-                saveCombinedDatabase();
-                compareCombinedDatabase = JSON.stringify(combinedDatabase);
-            }
-        }
-    }
-    if (currentApp === "tables") {
-        updateDataFromCurrentInputs(tablesTable);
-        if (JSON.stringify(tablesTable) != compareTablesTable) {
-            if (confirm("The table has changed, save the changes to a file?")) {
-                tablesSave();
-                compareTablesTable = JSON.stringify(tablesTable);
-            }
-        }
-    }
-    if (currentApp === "notes") {
-        if (note.value != compareNoteValue) {
-            if (confirm("The note has changed, save the changes to a file?")) {
-                notesSave();
-                compareNoteValue = note.value;
-            }
-        }
-    }
-    if (currentApp === "write") {
-        if (compareWriteData != makeCompareWriteData()) {
-            if (confirm("The document has changed, save the changes to a file?")) {
-                writeDataToJSON();
-                compareWriteData = makeCompareWriteData();
-            }
-        }
-    }
-    document.getElementById('top-nav').style.display = "flex";
-    document.getElementById('back-nav').style.display = "none";
-    showMain("main-startup");
-}
-
-
-/*function downloadPageAsText(url, basename, suffix){
-	let xhttp = new XMLHttpRequest();
-	xhttp.timeout = 1000;
-    xhttp.ontimeout = function(e) {
-        alert("Request timed out.  Try again later");
-    };
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-		   saveStringToTextFile(xhttp.responseText, basename, suffix);
-		}
-	};
-	xhttp.open("GET", url, true);
-	xhttp.send();
-	}
-*/
 
 function saveStringToTextFile(str1, basename = "myfile", fileType = ".txt") {
-    let filename = basename + fileType;
-    let blobVersionOfText = new Blob([str1], {
-        type: "text/plain"
-    });
-    let urlToBlob = window.URL.createObjectURL(blobVersionOfText);
-    let downloadLink = document.createElement("a");
-    downloadLink.style.display = "none";
-    downloadLink.download = filename;
-    downloadLink.href = urlToBlob;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    downloadLink.parentElement.removeChild(downloadLink);
+        let filename = basename + fileType;
+        let blobVersionOfText = new Blob([str1], {
+            type: "text/plain"
+        });
+        let urlToBlob = window.URL.createObjectURL(blobVersionOfText);
+        let downloadLink = document.createElement("a");
+        downloadLink.style.display = "none";
+        downloadLink.download = filename;
+        downloadLink.href = urlToBlob;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        downloadLink.parentElement.removeChild(downloadLink);
 }
+
+function copyAndSaveString(str1, basename = "myfile", fileType = ".txt") {
+    copyToClipBoard(str1, false);
+    if (confirm("Copied to clipboard, save to file also?")){
+        saveStringToTextFile(str1,basename,fileType);
+    }
+}
+
 
 //Date related functions for convience, uses same format as input type="date"
 function getTodaysDate() {
@@ -220,16 +107,9 @@ function showMain(id) {
     }
     document.getElementById(id).style.display = "flex";
 }
-function showPlannerDiv(id) {
-    //console.log("show mains called with " + id);
-    let divs = document.getElementsByClassName('planner-div');
-    for (let div of divs) {
-        div.style.display = "none";
-    }
-    document.getElementById(id).style.display = "unset";
-}
+
 //          clipboard function          //
-function copyToClipBoard(str) {
+function copyToClipBoard(str, message=true) {
     //https://techoverflow.net/2018/03/30/copying-strings-to-the-clipboard-using-pure-javascript/
     let el = document.createElement('textarea');
     el.value = str;
@@ -242,7 +122,9 @@ function copyToClipBoard(str) {
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
-    alert('Copied to Clipboard.');
+    if (message){
+        alert('Copied to Clipboard.');
+    }
     return (str);
 }
 
@@ -262,103 +144,34 @@ function fillInEmptyPropertyValues(table) {
 
 //              CSV related functions                   //
 function makeCSV(thisTable, saveWithHeader = true) { ////This one fixed
-    let csvString = "";
-    let tempString = "";
-    let headers = thisTable["headers"];
-    if (saveWithHeader === true) {
-        //fill in header from object
-        for (let header of headers) {
-            tempString = header.toString().split('"').join('""'); //any interior " needs to be replaced with ""
-            csvString += "\"" + tempString + "\","; //surround each field with quotes
-        }
-        csvString = csvString.slice(0, -1) + "\n"; //remove last comma and add new line
-    }
-    //fill in body data
-    let bodyData = thisTable["data"];
-    let numberOfRows = bodyData.length;
-    let numberOfColumns = headers.length;
-    for (let i = 0; i < numberOfRows; i++) {
-        for (let j = 0; j < numberOfColumns; j++) {
-            tempString = bodyData[i][headers[j]].toString().split('"').join('""'); //any interior " needs to be replaced with ""
-            csvString += "\"" + tempString + "\","; //surround each field with quotes
-        }
-        csvString = csvString.slice(0, -1) + "\n"; //remove last comma and add new line
-    }
-    console.log(csvString);
-    return (csvString);
+    return JSONToCSV(thisTable, saveWithHeader ,"\n");
+    // let csvString = "";
+    // let tempString = "";
+    // let headers = thisTable["headers"];
+    // if (saveWithHeader === true) {
+    //     //fill in header from object
+    //     for (let header of headers) {
+    //         tempString = header.toString().split('"').join('""'); //any interior " needs to be replaced with ""
+    //         csvString += "\"" + tempString + "\","; //surround each field with quotes
+    //     }
+    //     csvString = csvString.slice(0, -1) + "\n"; //remove last comma and add new line
+    // }
+    // //fill in body data
+    // let bodyData = thisTable["data"];
+    // let numberOfRows = bodyData.length;
+    // let numberOfColumns = headers.length;
+    // for (let i = 0; i < numberOfRows; i++) {
+    //     for (let j = 0; j < numberOfColumns; j++) {
+    //         tempString = bodyData[i][headers[j]].toString().split('"').join('""'); //any interior " needs to be replaced with ""
+    //         csvString += "\"" + tempString + "\","; //surround each field with quotes
+    //     }
+    //     csvString = csvString.slice(0, -1) + "\n"; //remove last comma and add new line
+    // }
+    // console.log(csvString);
+    // return (csvString);
 }
 
-//needs rewritten to match above format
-/*
-function readCSV(csvString, loadWithHeader = true) {
-    //trim string
-    csvString = csvString.trim();
-    //make lines out of csvString
-    let lines = csvString.split("\n");
-    let newCSVArrayOfArrays = [];
-    for (let i = 0; i < lines.length; i++) {
-        //trim whitespace of each line
-        lines[i] = lines[i].trim();
-        //remove leading and trailing " character
-        lines[i] = lines[i].slice(1, -1);
-        //split by ","
-        let tempRowArray = lines[i].split('","');
-        //make randomString
-        let randomString = tokenMaker(32);
-        while (lines[i].includes(randomString) === true) { //tests to see if randomString already in line (seems unlikely)
-            randomString = tokenMaker(32);
-        };
-        //join by a randome string (make real random string here)
-        let newString = tempRowArray.join(randomString);
-        //look for the double quotes around randomString that is where the "," ie "","" (CSV convention) was
-        newString = newString.split('"' + randomString + '"').join('","');
-        //split by randomString without the quotes
-        tempRowArray = newString.split(randomString);
-        //for each element in the row of elements, replace the "" with " CSV convention
-        for (let j = 0; j < tempRowArray.length; j++) {
-            tempRowArray[j] = tempRowArray[j].split('""').join('"');
-        }
-        newCSVArrayOfArrays.push(tempRowArray); //add each row to the new array
-    }
-    //console.log(newCSVArrayOfArrays); //now we have a straight array of arrays of strings in a csv style grid
-    //convert to headers and data.
-    let headers = [];
-    let data = [];
-    if (newCSVArrayOfArrays.length > 0) {
-        if (loadWithHeader === true) {
-            headers = newCSVArrayOfArrays[0];
-            if (newCSVArrayOfArrays.length > 1) {
-                for (let i = 1; i < newCSVArrayOfArrays.length; i++) { //loop through rows
-                    let tempRow = {};
-                    for (let j = 0; j < newCSVArrayOfArrays[i].length; j++) { //loop through cells in rows
-                        tempRow[headers[j]] = newCSVArrayOfArrays[i][j];
-                    }
-                    data.push(tempRow);
-                }
-            }
-        } else {
-            if (newCSVArrayOfArrays.length > 0) {
-                for (let j = 0; j < newCSVArrayOfArrays[0].length; j++) {
-                    headers.push("Column " + (j + 1).toString());
-                }
-                for (let i = 0; i < newCSVArrayOfArrays.length; i++) { //loop through rows
-                    let tempRow = {};
-                    for (let j = 0; j < newCSVArrayOfArrays[i].length; j++) { //loop through cells in rows
-                        tempRow[headers[j]] = newCSVArrayOfArrays[i][j];
-                    }
-                    data.push(tempRow);
-                }
-            }
-        }
-    }
 
-    let finalTable = {};
-    finalTable["headers"] = headers;
-    finalTable["data"] = data;
-    console.log(JSON.stringify(finalTable));
-    return JSON.parse(JSON.stringify(finalTable));
-}
-* */
 
 function tokenMaker(intSize) {
     let token = "";
@@ -380,7 +193,7 @@ function processCSVClick(table) {
     //}
     copyToClipBoard(thisCSV);
     if (confirm("Table copied to CSV.\n\nSave to file also?")) {
-        saveStringToTextFile(thisCSV, table["name"] + getTodaysDate(), ".csv");
+        copyAndSaveString(thisCSV, table["name"] + getTodaysDate(), ".csv");
     }
 }
 
