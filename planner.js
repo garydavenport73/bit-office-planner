@@ -720,6 +720,31 @@ function saveContactsEntry() {
     showPlannerDiv("planner-contacts-table");
 }
 
+function exportSingleVCard(){
+    let index = parseInt(document.getElementById("contacts-row-index").value);
+    //console.log(index);
+    let headers = contactsTable["headers"];
+    let row = {};
+    for (let j = 0; j < headers.length; j++) {
+        row[headers[j]] = document.getElementById("contact-" + headers[j]).value;
+    }
+
+    let vCard=makeSingleVCFString(row);
+
+    copyAndSaveString(vCard,row["First Name"]+"-"+row["Last Name"]+"-"+"Contact"+"-"+getTodaysDate(),".vcf");
+
+    if (index >= 0) { //an existing entry
+        contactsTable["data"][index] = row;
+    } else { // a new entry
+        contactsTable["data"].push(row);
+    }
+    alert("Entry also updated in contacts.");
+
+    clearContactFormEntries(contactsTable);
+    contactsTableElement.innerHTML = buildContactsTableElement(contactsTable);
+    showPlannerDiv("planner-contacts-table");
+}
+
 function deleteContactsEntry() {
     let index = parseInt(document.getElementById("contacts-row-index").value);
     if (index >= 0) { //editing an entry
@@ -968,54 +993,61 @@ function exportVCF() {
     let str = "";
     let rows = contactsTable["data"];
     for (let i = 0; i < rows.length; i++) {
-        console.log(rows[i]);
-        str += "BEGIN:VCARD\n";
-        str += "VERSION:2.1\n";
-        //let prefixes = ["ADR;HOME:", "EMAIL:", "FN:", "NOTE:", "TEL;CELL:", "TEL;HOME:", "TEL;WORK:", "N:"];
-        //let contactObjectKeys = ["Home Address", "E-mail Address", "First Name", "Notes", "Mobile Phone", "Home Phone", "Business Phone", "Last Name", "Middle Name"];
-        let familyName = "";
-        let givenName = "";
-        let middleName = "";
-        if (rows[i]["Last Name"] !== undefined) {
-            familyName = rows[i]["Last Name"];
-            familyName = familyName.replace(/\;/g, " ");//remove ; because will throw off format, prevents user injection of ;
-        }
-        if (rows[i]["First Name"] !== undefined) {
-            givenName = rows[i]["First Name"];
-            givenName = givenName.replace(/\;/g, " ");
-        }
-        if (rows[i]["Middle Name"] !== undefined) {
-            middleName = rows[i]["Middle Name"];
-            middleName = middleName.replace(/\;/g, " ");
-        }
-        str += "N:" + familyName + ";" + givenName + ";" + middleName + ";;\n"
-        //if (givenName.trim()!==""){
-        str += "FN:" + givenName + " " + middleName + " " + familyName + "\n";
-        //}
-
-        if ((rows[i]["Mobile Phone"] !== undefined) && (rows[i]["Mobile Phone"] !== "")) {
-            str += "TEL;CELL:" + rows[i]["Mobile Phone"] + "\n";
-        }
-        if ((rows[i]["Home Phone"] !== undefined) && (rows[i]["Home Phone"] !== "")) {
-            str += "TEL;HOME:" + rows[i]["Home Phone"] + "\n";
-        }
-        if ((rows[i]["Business Phone"] !== undefined) && (rows[i]["Business Phone"] !== "")) {
-            str += "TEL;WORK:" + rows[i]["Business Phone"] + "\n";
-        }
-        if ((rows[i]["E-mail Address"] !== undefined) && (rows[i]["E-mail Address"] !== "")) {
-            str += "EMAIL:" + rows[i]["E-mail Address"] + "\n";
-        }
-        if ((rows[i]["Home Address"] !== undefined) && (rows[i]["Home Address"] !== "")) {
-            str += "ADR;HOME:" + rows[i]["Home Address"] + "\n";
-        }
-        if ((rows[i]["Notes"] !== undefined) && (rows[i]["Notes"] !== "")) {
-            str += "NOTE:" + rows[i]["Notes"] + "\n";
-        }
-        str += "END:VCARD\n";
+        str+=makeSingleVCFString(rows[i]);
     }
-
     console.log(str);
     copyAndSaveString(str, "vcf" + contactsTable["name"] + getTodaysDate(), ".vcf");
+}
+
+
+
+function makeSingleVCFString(row){
+    let str="";
+    console.log(row);
+    str += "BEGIN:VCARD\n";
+    str += "VERSION:2.1\n";
+    //let prefixes = ["ADR;HOME:", "EMAIL:", "FN:", "NOTE:", "TEL;CELL:", "TEL;HOME:", "TEL;WORK:", "N:"];
+    //let contactObjectKeys = ["Home Address", "E-mail Address", "First Name", "Notes", "Mobile Phone", "Home Phone", "Business Phone", "Last Name", "Middle Name"];
+    let familyName = "";
+    let givenName = "";
+    let middleName = "";
+    if (row["Last Name"] !== undefined) {
+        familyName = row["Last Name"];
+        familyName = familyName.replace(/\;/g, " ");//remove ; because will throw off format, prevents user injection of ;
+    }
+    if (row["First Name"] !== undefined) {
+        givenName = row["First Name"];
+        givenName = givenName.replace(/\;/g, " ");
+    }
+    if (row["Middle Name"] !== undefined) {
+        middleName = row["Middle Name"];
+        middleName = middleName.replace(/\;/g, " ");
+    }
+    str += "N:" + familyName + ";" + givenName + ";" + middleName + ";;\n"
+    //if (givenName.trim()!==""){
+    str += "FN:" + givenName + " " + middleName + " " + familyName + "\n";
+    //}
+
+    if ((row["Mobile Phone"] !== undefined) && (row["Mobile Phone"] !== "")) {
+        str += "TEL;CELL:" + row["Mobile Phone"] + "\n";
+    }
+    if ((row["Home Phone"] !== undefined) && (row["Home Phone"] !== "")) {
+        str += "TEL;HOME:" + row["Home Phone"] + "\n";
+    }
+    if ((row["Business Phone"] !== undefined) && (row["Business Phone"] !== "")) {
+        str += "TEL;WORK:" + row["Business Phone"] + "\n";
+    }
+    if ((row["E-mail Address"] !== undefined) && (row["E-mail Address"] !== "")) {
+        str += "EMAIL:" + row["E-mail Address"] + "\n";
+    }
+    if ((row["Home Address"] !== undefined) && (row["Home Address"] !== "")) {
+        str += "ADR;HOME:" + row["Home Address"] + "\n";
+    }
+    if ((row["Notes"] !== undefined) && (row["Notes"] !== "")) {
+        str += "NOTE:" + row["Notes"] + "\n";
+    }
+    str += "END:VCARD\n";
+    return str;
 }
 
 
