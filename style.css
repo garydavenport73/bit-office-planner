@@ -38,7 +38,7 @@ img {
 html {
     background-color: aliceblue;
 }
-h1{
+h1:not(#document-result h1){
     color:lavender;
     background-color: mediumblue;
     font-family: Arial, Helvetica, sans-serif;
@@ -60,24 +60,81 @@ h1{
     border: #e0e0e0;
     border-radius: 5px;
 }
-h2{
+h2:not(#document-result h2){
     margin: 16px;
     /* padding: 2px; */
     /* background-color: mediumblue; */
     font-weight: bold;
-    color: lavender;
+    /* color: lavender; */
     text-align: center;
     padding: 2px;
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid grey;
 }
 #main-planner h2{
     color: white;
     background-color: purple;
 }
+
+
 #main-notes h2{
     background-color: orange;
+    color: black;
 }
+#main-write h2{
+    background-color: cadetblue;
+}
+
+#main-tables h2{
+    background-color: forestgreen;
+    color: antiquewhite;
+}
+
+/* #main-write h2:not(#document-result h2) {
+    background-color: cadetblue;
+    color: antiquewhite;
+} */
+
+#main-write h2{
+    background-color: cadetblue;
+    color: antiquewhite;
+}
+#document-result h1, #document-result h2, #document-result h3, #document-result h4{
+    background-color: unset;
+    color: unset;
+}
+
+#document-result * {
+    background-color: unset;
+    width: unset;
+    text-align: unset;
+    border-radius: unset;
+    margin-left: unset;
+    margin-right: unset;
+    width: unset;
+    padding-bottom: unset;
+    align-items: unset;
+    border-radius: unset;
+    margin: unset;
+    padding: unset;
+}
+
+#document-parent {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: lightgoldenrodyellow;
+}
+
+#document-result {
+    overflow-wrap: break-word;
+    min-height: 100px;
+    width: auto;
+    background-color: lightgoldenrodyellow;
+    white-space: pre-wrap;
+}
+
 main{
     background-color: #e0e0e0;
     border: 1px solid orange;
@@ -91,15 +148,41 @@ body {
     box-sizing: border-box;
 }
 
-h1,
-h2,
-h3,
+h1:not(#document-result h1),
+h2:not(#document-result h2),
+h3:not(#document-result h3),
 nav {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
+
+#edit-bar,#document-settings{
+display: flex;
+justify-content: left;
+    flex-wrap: wrap;
+    background-color: cadetblue;
+    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+}
+#edit-bar button, #document-settings button{
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    border: 1px solid grey;
+padding: 1px 4px;
+margin: 0;
+}
+
+#text-editor {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    min-height: 100px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
 footer {
     position: fixed;
     bottom: 0;
@@ -111,16 +194,18 @@ button {
     padding: 5px;
 }
 
-#main-planner, #main-notes {
+#main-planner, #main-notes, #main-write, #main-tables {
     display: flex;
     flex-direction: column;
 }
 
-.planner-div {
-    /* display: flex;
-    flex-direction: column; */
-    /* min-height: 320px; */
+/* #planner-ribbon{
+    border-bottom: 1px solid lightslategray;
+    padding-bottom: 0.5re;
 }
+#main-planner h3{
+    border-bottom: 1px solid lightslategray;
+} */
 main{
     min-height: 320px;
 }
@@ -204,3 +289,6 @@ main h3{
     color: snow;
     background-color: grey;
 }
+
+/* TABLES APP */
+

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link id="favicon-link" rel="icon" type="image/x-icon" href="">
+    <title>bitOffice</title>
+</head>
+
+<body>
+    <!-- <h1 onclick="alert(license);">bitOffice</h1>
+    <nav id="top-nav">
+        <button onclick="showMain('main-planner');">&#9742;&#128197;</button>
+        <button onclick="showMain('delete-me');">&#128196;</button>
+        <button onclick="showMain('delete-me');">&#128221;</button>
+        <button onclick="showMain('delete-me');">&#9638;</button>
+        <button onclick="showMain('delete-me');">&#128290;</button>
+    </nav> -->
+    <main id="main-tables">
+        <div class="tables-div" id="tables-tables-table">
+            <h2>Tables</h2>
+            <nav>
+                <button onclick="tablesNewTable();">New</button>
+                <button onclick="tablesLoad();">Load</button>
+                <button onclick="tablesSave();">Save</button>
+                <button onclick="tablesCopyCSVToClipboard()">Copy</button>
+                <button onclick="tablesShowRules();">?</button>
+            </nav>
+            <div class="table-container">
+                <table id="tables-table">
+                </table>
+            </div>
+        </div>
+        <div class="tables-div" id="tables-tables-header-form">
+            <h3>Column: <span id="tables-current-header">header name here</span></h3>
+            <button onclick="updateHeaderName();">Change name to:</button>
+            <input id="tables-new-header-name" type="text" placeholder="name">
+            <button onclick="deleteColumn();">Delete Column</button>
+            <button onclick="copyColumn()">Copy Column</button>
+            <button onclick="moveColumn()">Move To Column</button><select id="move-column"></select>
+            <button onclick="calculateTotal()">Add Total</button>
+            <button onclick="calculateAverage()">Compute Average</button>
+            <button onclick="tablesSort(1)">Sort Ascending &uarr;</button>
+            <button onclick="tablesSort(-1)">Sort Descending &darr;</button>
+            <button onclick="tablesCancel()">Cancel</button>
+        </div>
+        <div class="tables-div" id="tables-tables-row-form">
+            <h2>Tables</h2>
+            <h3>Row: <span id="tables-current-row">row number here</span></h3>
+            <button onclick="deleteRow()">Delete Row</button>
+            <button onclick="copyRow()">Copy Row</button>
+            <button onclick="moveRow()">Move To Row</button>
+            <select id="move-row"></select>
+            <button onclick="tablesCancel()">Cancel</button>
+        </div>
+    </main>
+
+    
+
+
+    <footer onclick="alert(license)">bitOffice &copy; 2022</footer>
+<script src="commonFunctions.js"></script>
+<script src="tables.js"></script>
+<script>
+        // showPlannerDiv('planner-calendar-start');
+        makeFavicon("p", "white", "mediumblue");
+        // showMain('main-tables');
+        showTablesDiv('tables-tables-table');
+        window.onbeforeunload = askConfirm;
+        // alert("Load your planner file to start.");
+    </script>
+
+
+</body>
+
+</html>

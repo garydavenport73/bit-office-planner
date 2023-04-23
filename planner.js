@@ -1,3 +1,55 @@
+//------------------contacts and calendar database ----------------------
+let contactsTableElement = document.getElementById("contacts-table");
+let contactsEditForm = document.getElementById("contacts-edit-form");
+let contactsEditFormMessage = document.getElementById("contacts-edit-form-message");
+let contactsSortAscending = 1;
+
+let contactsTable = {
+    "name": "Contacts",
+    "headers": ["First Name","Middle Name","Last Name","Mobile Phone","Home Phone","Business Phone","E-mail Address","Home Address", "Notes"],
+    "inputTypes": {
+        "First Name": "text",
+        "Middle Name": "text",
+        "Last Name": "text",
+        "Mobile Phone": "tel",
+        "Home Phone": "tel",
+        "Business Phone": "tel",
+        "E-mail Address": "email",
+        "Home Address": "textarea",
+        "Notes": "textarea"
+    },
+    "data": []
+}
+
+//----------------calendar-------------------------
+let calendarTable = document.getElementById("calendar-table");
+let calendarEditForm = document.getElementById("calendar-edit-form");
+let calendarEditFormMessage = document.getElementById("calendar-edit-form-message");
+let monthChooser = document.getElementById("month-chooser");
+let daysAbbreviations = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+let calendarSortAscending = 1;
+
+let calendarDatabase = {
+    "name": "Calendar",
+    "headers": ["Subject", "Start Date", "Start Time", "End Date", "End Time", "Description"],
+    "inputTypes": {
+        "Subject": "text",
+        "Start Date": "date",
+        "Start Time": "time",
+        "End Date":"date",
+        "End Time": "time",
+        "Description": "textarea"
+    },
+    "data":[]
+}
+
+//	COMBINED DATABASE
+
+let combinedDatabase = {
+    "contacts": contactsTable,
+    "calendar": calendarDatabase
+}
+
 ///////////////////CALENDAR//////////////////////
 initializeCalendarApp();
 
