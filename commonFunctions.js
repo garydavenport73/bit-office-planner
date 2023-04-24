@@ -212,6 +212,40 @@ function destructiveSort(arrayOfObjects, field, direction = 1) {
     });
 }
 
+function destructiveDoubleSortAscending(arrayOfObjects,date,time){
+    arrayOfObjects.sort((a, b) => {
+        if (a[date] > b[date]) {
+            return 1;
+        }
+        else if (a[date] < b[date]) {
+            return -1;
+        }
+        if (a[time] > b[time]) {
+            return 1;
+        }
+        else if (a[time] < b[time]) {
+            return -1;
+        }
+        return 0;
+    });
+}
+// function sortF(ob1,ob2) {
+//     if (ob1.strength > ob2.strength) {
+//         return 1;
+//     } else if (ob1.strength < ob2.strength) { 
+//         return -1;
+//     }
+
+//     // Else go to the 2nd item
+//     if (ob1.name < ob2.name) { 
+//         return -1;
+//     } else if (ob1.name > ob2.name) {
+//         return 1
+//     } else { // nothing to split them
+//         return 0;
+//     }
+// }
+
 function makeFavicon(letter, color, backgroundColor) {
     //put this in head of html document
     //<link id="favicon-link" rel="icon" type="image/x-icon" href="">

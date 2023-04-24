@@ -124,7 +124,9 @@ function buildCalendarTableElement(date) { //needs headers data
 
     }
 
-    destructiveSort(filteredRows, "Start Time");
+    //destructiveSort(filteredRows, "Start Time");
+
+    destructiveDoubleSortAscending(filteredRows,"Start Date","Start Time");
 
     //start table
 
@@ -171,6 +173,8 @@ function buildCalendarTableElement(date) { //needs headers data
     //let daysEntries = calendarDatabase["dates"][date]["data"];
 
 }
+
+
 
 function newCalendarEntry(table) {
     //show what's being edited
@@ -250,16 +254,6 @@ function saveCalendarEntry() {
     for (let j = 0; j < headers.length; j++) {
         row[headers[j]] = document.getElementById(headers[j]).value;
     }
-
-
-    //if ((row["start date"]==="") || (row["start"]==="")){
-    //	row["sort value"]="";
-    //}
-    //else{
-    //	row["sort value"]=row["start date"]+row["start"];
-    //}
-
-
     //insist start date exists
     if (row["Start Date"] === "") {
         row["Start Date"] = date;
@@ -271,10 +265,6 @@ function saveCalendarEntry() {
         row["UID"] = makeUID(row["Start Date"], row["Start Time"]);
     }
 
-    //row["sort value"] = row["Start Date"] + row["Start Time"];
-    //console.log(row);
-
-
     if (index >= 0) { //an existing entry
         calendarDatabase["data"][index] = row;
     } else { // a new entry
@@ -285,6 +275,41 @@ function saveCalendarEntry() {
     calendarTable.innerHTML = buildCalendarTableElement(date);
     showPlannerDiv("planner-calendar-table");
 }
+
+function exportSingleICalEvent(){
+    let index = parseInt(document.getElementById("calendar-row-index").value);
+    let date = document.getElementById("calendar-date").value;
+    let headers = calendarDatabase["headers"];
+    let row = {};
+    for (let j = 0; j < headers.length; j++) {
+        row[headers[j]] = document.getElementById(headers[j]).value;
+    }
+    if ((row["UID"]==="")||row["UID"]===undefined){
+        row["UID"]=makeUID(row["Start Date"],row["Start Time"]);
+        document.getElementById("UID").innerHTML=row["UID"];
+    }
+    let vEvent=makeVEvent(row,"\n");
+    let eventsArr=[];
+    eventsArr.push(vEvent);
+    let vCal=makeVCalendar(eventsArr,"\n");
+    let filename="vEvent"+row["Start Date"]+"_"+row["Start Time"].replace(/\:/g,"");
+    copyAndSaveString(vCal,filename,".ical");
+    
+
+    if (index >= 0) { //an existing entry
+        calendarDatabase["data"][index] = row;
+    } else { // a new entry
+        calendarDatabase["data"].push(row);
+    }
+
+    alert("Entry also updated in calendar.");
+    clearCalendarFormEntries();
+    //destructiveSort(calendarDatabase["data"], "sort value");
+    calendarTable.innerHTML = buildCalendarTableElement(date);
+    showPlannerDiv("planner-calendar-table");
+}
+
+
 function makeUID(startDate, startTime) {
     let rows = calendarDatabase["data"];
     let usedIDs = [];
@@ -659,14 +684,15 @@ function clearCalendar() {
     if (confirm("Are you sure?  This will clear all calendar entries")) {
         calendarDatabase = {
             "name": "Calendar",
-            "headers": ["Subject", "Start Date", "Start Time", "End Date", "End Time", "Description"],
+            "headers": ["Subject", "Start Date", "Start Time", "End Date", "End Time", "Description","UID"],
             "inputTypes": {
                 "Subject": "text",
                 "Start Date": "date",
                 "Start Time": "time",
                 "End Date": "date",
                 "End Time": "time",
-                "Description": "textarea"
+                "Description": "textarea",
+                "UID":"text"
             },
             "data": []
         }
@@ -971,7 +997,7 @@ function importVCF() {
     }
 }
 
-function importICSCalendar(){
+function importICSCalendar() {
     if (confirm("This will merge entries.  Continue?")) {
         let fileContents = "";
         let inputTypeIsFile = document.createElement('input');
@@ -983,12 +1009,12 @@ function importICSCalendar(){
             fileReader.onload = function (fileLoadedEvent) {
                 fileContents = fileLoadedEvent.target.result;
 
-                let events=getVEVENTSFromICS(fileContents);
-                for (let i=0;i<events.length; i++){
-                    let row=parseVEVENTToObject(events[i]);
+                let events = getVEVENTSFromICS(fileContents);
+                for (let i = 0; i < events.length; i++) {
+                    let row = parseVEVENTToObject(events[i]);
 
-                    if ((row["UID"]==="")||(row["UID"])===undefined){
-                        row["UID"]=makeUID(row["Start Date"],row["Start Time"]);
+                    if ((row["UID"] === "") || (row["UID"]) === undefined) {
+                        row["UID"] = makeUID(row["Start Date"], row["Start Time"]);
                     }
                     calendarDatabase["data"].push(row);
                 }
@@ -1006,88 +1032,88 @@ function importICSCalendar(){
 
 }
 
-function getVEVENTSFromICS(contents){
-    contents.replace(/(\r\n|\r|\n)/g,"\\\n");
-    contents=contents.trim();
-    lines=contents.split("\n");
-    let events=[];
-    let str="";
-    let inside=false;
-    for (let i=0;i<lines.length;i++){
-        if (inside===true){
-            if (lines[i].slice(0,10)==="END:VEVENT"){
-                inside=false;
+function getVEVENTSFromICS(contents) {
+    contents.replace(/(\r\n|\r|\n)/g, "\\\n");
+    contents = contents.trim();
+    lines = contents.split("\n");
+    let events = [];
+    let str = "";
+    let inside = false;
+    for (let i = 0; i < lines.length; i++) {
+        if (inside === true) {
+            if (lines[i].slice(0, 10) === "END:VEVENT") {
+                inside = false;
                 events.push(str);
-                str="";
+                str = "";
             }
-            else{
-                str+=lines[i]+="\n";
+            else {
+                str += lines[i] += "\n";
             }
         }
-        if ((lines[i].slice(0,12))==="BEGIN:VEVENT"){
-            inside=true;
+        if ((lines[i].slice(0, 12)) === "BEGIN:VEVENT") {
+            inside = true;
         }
     }
     return events;
 }
 
-function parseVEVENTToObject(vEvent){
-    let row={}
+function parseVEVENTToObject(vEvent) {
+    let row = {}
     //Just in case
-    // vEvent.replace(/(\r\n|\r|\n)/g,"\\\n");
-    // vEvent=contents.trim();
-    let lines=vEvent.split("\n");
-    row["Subject"]="";
-    row["Description"]="";
-    row["UID"]="";
-    row["Start Date"]="";
-    row["Start Time"]="";
-    row["End Date"]="";
-    row["End Time"]="";
-    let extraStuff="\n-------Extra Stuff-------\n";
-    for (let i=0;i<lines.length;i++){
-        let line=lines[i]
-        if (line.slice(0,7)==="SUMMARY"){
-            row["Subject"]=line.split(":")[1];
+    vEvent=vEvent.replace(/(\r\n|\r|\n)/g, "\n");
+    vEvent = vEvent.trim();
+    let lines = vEvent.split("\n");
+    row["Subject"] = "";
+    row["Description"] = "";
+    row["UID"] = "";
+    row["Start Date"] = "";
+    row["Start Time"] = "";
+    row["End Date"] = "";
+    row["End Time"] = "";
+    let extraStuff = "\n-------Extra Stuff-------\n";
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        if (line.slice(0, 7) === "SUMMARY") {
+            row["Subject"] = line.split(":")[1];
         }
-        else if (line.slice(0,11)==="DESCRIPTION"){
-            row["Description"]=line.split(":")[1];
+        else if (line.slice(0, 11) === "DESCRIPTION") {
+            row["Description"] = line.split(":")[1];
         }
-        else if (line.slice(0,3)==="UID"){
-            row["UID"]=line.split(":")[1];
+        else if (line.slice(0, 3) === "UID") {
+            row["UID"] = line.split(":")[1];
         }
-        else if (line.slice(0,7)==="DTSTART"){
-            let iCalStartDate=line.split(":")[1];
-            let ISOString=iCalDateToISOString(iCalStartDate);
-            let startDateObject=new Date(ISOString);
-            let year=startDateObject.getFullYear().toString();
-            let month=("0"+((startDateObject.getMonth()+1).toString())).slice(-2);
-            let date=("0"+(startDateObject.getDate().toString())).slice(-2);
-            let hours=("0"+((startDateObject.getHours()+1).toString())).slice(-2);
-            let minutes=("0"+(startDateObject.getMinutes().toString())).slice(-2);
-            let seconds=("0"+(startDateObject.getSeconds().toString())).slice(-2);
-            row["Start Date"]=year+"-"+month+"-"+date;
-            row["Start Time"]=hours+":"+minutes+":"+seconds;
+        else if (line.slice(0, 7) === "DTSTART") {
+            let iCalStartDate = line.split(":")[1];
+            let ISOString = iCalDateToISOString(iCalStartDate);
+            let startDateObject = new Date(ISOString);
+            let year = startDateObject.getFullYear().toString();
+            let month = ("0" + ((startDateObject.getMonth() + 1).toString())).slice(-2);
+            let date = ("0" + (startDateObject.getDate().toString())).slice(-2);
+            let hours = ("0" + ((startDateObject.getHours() + 1).toString())).slice(-2);
+            let minutes = ("0" + (startDateObject.getMinutes().toString())).slice(-2);
+            let seconds = ("0" + (startDateObject.getSeconds().toString())).slice(-2);
+            row["Start Date"] = year + "-" + month + "-" + date;
+            row["Start Time"] = hours + ":" + minutes + ":" + seconds;
         }
-        else if (line.slice(0,7)==="DTEND"){
-            let iCalEndDate=line.split(":")[1];
-            let ISOString=iCalDateToISOString(iCalEndDate);
-            let endDateObject=new Date(ISOString);
-            let year=endDateObject.getFullYear().toString();
-            let month=("0"+((endDateObject.getMonth()+1).toString())).slice(-2);
-            let date=("0"+(endDateObject.getDate().toString())).slice(-2);
-            let hours=("0"+((endDateObject.getHours()+1).toString())).slice(-2);
-            let minutes=("0"+(endDateObject.getMinutes().toString())).slice(-2);
-            let seconds=("0"+(endDateObject.getSeconds().toString())).slice(-2);
-            row["End Date"]=year+"-"+month+"-"+date;
-            row["End Time"]=hours+":"+minutes+":"+seconds;
+        else if (line.slice(0, 5) === "DTEND") {
+            let iCalEndDate = line.split(":")[1];
+            let ISOString = iCalDateToISOString(iCalEndDate);
+            let endDateObject = new Date(ISOString);
+            let year = endDateObject.getFullYear().toString();
+            let month = ("0" + ((endDateObject.getMonth() + 1).toString())).slice(-2);
+            let date = ("0" + (endDateObject.getDate().toString())).slice(-2);
+            let hours = ("0" + ((endDateObject.getHours() + 1).toString())).slice(-2);
+            let minutes = ("0" + (endDateObject.getMinutes().toString())).slice(-2);
+            let seconds = ("0" + (endDateObject.getSeconds().toString())).slice(-2);
+            row["End Date"] = year + "-" + month + "-" + date;
+            row["End Time"] = hours + ":" + minutes + ":" + seconds;
         }
-        else{
-            extraStuff+=line+"\n";
+        else {
+            extraStuff += line + "\n";
         }
     }
 
-    row["Description"]+=extraStuff;
+    row["Description"] += extraStuff;
     // need SUMMARY
     // need DTSTART
     // need DTEND
@@ -1096,20 +1122,20 @@ function parseVEVENTToObject(vEvent){
     return row;
 }
 
-function iCalDateToISOString(icalDate){
+function iCalDateToISOString(icalDate) {
     // 2023-06-11T14:05:25.003Z----->20230611T140525Z
-    let year=icalDate.slice(0,4);
-    let month=parseInt(icalDate.slice(4,6));
-    let day=icalDate.slice(6,8);
+    let year = icalDate.slice(0, 4);
+    let month = parseInt(icalDate.slice(4, 6));
+    let day = icalDate.slice(6, 8);
     let dateObject;
-    if (icalDate.indexOf("T")!==-1){//Long String
-        hour=icalDate.slice(9,11);
-        min=icalDate.slice(11,13);
-        sec=icalDate.slice(13,15);
-        dateObject= new Date(year,month,day,hour,min,sec);
+    if (icalDate.indexOf("T") !== -1) {//Long String
+        hour = icalDate.slice(9, 11);
+        min = icalDate.slice(11, 13);
+        sec = icalDate.slice(13, 15);
+        dateObject = new Date(year, month, day, hour, min, sec);
     }
-    else{
-        dateObject=new Date(year, month, day);
+    else {
+        dateObject = new Date(year, month, day);
     }
 
     return dateObject.toISOString();
@@ -1296,18 +1322,18 @@ function loadCombinedDatabase() {
 
             /////////////////////////////////////////////////
             // IF OLD DATABASE DOESN'T HAVE UIDS
-            if (calendarDatabase["headers"].includes("UID")){
+            if (calendarDatabase["headers"].includes("UID")) {
                 //do nothing
             }
-            else{
+            else {
                 calendarDatabase["headers"].push("UID");
-                calendarDatabase["inputTypes"]["UID"]="text";
+                calendarDatabase["inputTypes"]["UID"] = "text";
             }
             // IF OLD DATABASE ROWS don't all have UIDS, make them now
-            let dataRows=calendarDatabase["data"];
-            for (let i=0;i<dataRows.length;i++){
-                if ((dataRows[i]["UID"]==="")||(dataRows[i]["UID"]===undefined)){
-                    dataRows[i]["UID"]=makeUID(dataRows["Start Date"],dataRows["Start Time"]);
+            let dataRows = calendarDatabase["data"];
+            for (let i = 0; i < dataRows.length; i++) {
+                if ((dataRows[i]["UID"] === "") || (dataRows[i]["UID"] === undefined)) {
+                    dataRows[i]["UID"] = makeUID(dataRows["Start Date"], dataRows["Start Time"]);
                 }
             }
             /////////////////////////////////////
@@ -1361,12 +1387,12 @@ function makeVEvent(row, lineTerminator = "\n") {
     let nowString = nowDate.toISOString();
     nowString = ISOStringToICalString(nowString);
     str += "BEGIN:VEVENT" + lt;
-    str += "SUMMARY:" + subject + lt;
-    str += "DTSTART:" + ISOStringToICalString(htmlDateAndTimeToISOString(startDate, startTime)) + lt;
-    str += "DTEND:" + ISOStringToICalString(htmlDateAndTimeToISOString(endDate, endTime)) + lt;
-    str += "DESCRIPTION:" + description + lt;
-    str += "DTSTAMP:" + nowString + lt;
-    str += "UID:" + UID + lt;
+    str += "SUMMARY:" + subject.trim() + lt;
+    str += "DTSTART:" + ISOStringToICalString(htmlDateAndTimeToISOString(startDate, startTime)).trim() + lt;
+    str += "DTEND:" + ISOStringToICalString(htmlDateAndTimeToISOString(endDate, endTime)).trim() + lt;
+    str += "DESCRIPTION:" + description.trim() + lt;
+    str += "DTSTAMP:" + nowString.trim() + lt;
+    str += "UID:" + UID.trim() + lt;
     str += "END:VEVENT";
 
     return str;
@@ -1403,21 +1429,24 @@ function makeVEventsArr(dataRows) {
     return arr;
 }
 
-function makeVCalendar(vEventsArr, lineTerminator = "\n") {
-    let str = "";
-    let lt = lineTerminator;
-    str += "BEGIN:VCALENDAR" + lt;
-    str += "VERSION:2.0" + lt;
-    str += "CALSCALE:GREGORIAN" + lt;
-    for (let i = 0; i < vEventsArr.length; i++) {
-        str += vEventsArr[i].trim() + lt;
+
+function makeVCalendar(vEventsArr, lineTerminator="\n"){
+    let str="";
+    let lt=lineTerminator;
+    str+="BEGIN:VCALENDAR"+lt;
+    str+="VERSION:2.0"+lt;
+    str += "PRODID:bitOffice"+lt;
+    str+="CALSCALE:GREGORIAN"+lt;
+    for (let i=0;i<vEventsArr.length;i++){
+        str+=vEventsArr[i].trim()+lt;
     }
-    str += "END:VCALENDAR";
+    str+="END:VCALENDAR";
     return str;
 }
 
-function exportICSCalendar(){
+function exportICSCalendar() {
     let eventsArr = makeVEventsArr(calendarDatabase["data"]);
-    let cal=makeVCalendar(eventsArr);
-    copyAndSaveString(cal,"ICSCalendar"+getTodaysDate(),".ics");
+    let cal = makeVCalendar(eventsArr);
+    copyAndSaveString(cal, "ICSCalendar" + getTodaysDate(), ".ics");
 }
+

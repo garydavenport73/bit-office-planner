@@ -63,8 +63,8 @@
                 <nav>
                     <!-- <button onclick="loadOutlookContactsCSV();">&#128194; Import CSV</button>
                     <button onclick="saveOutlookContactsCSV();">&#128193; Export CSV</button> -->
-                    <button onclick="importVCF();">&#128193; Import .vcf</button>
-                    <button onclick="exportVCF();">&#128193; Export .vcf</button>
+                    <button onclick="importVCF();">&#128193; Import vCards</button>
+                    <button onclick="exportVCF();">&#128193; Export vCards</button>
                     <span class="nested-menu">&lrarr;</span>
                 </nav>
             </nav>
@@ -79,7 +79,7 @@
                 <button onclick='saveContactsEntry();'>Save</button>
                 <button onclick='deleteContactsEntry();'>Delete</button>
                 <button onclick='cancelContactsEntry();'>Cancel</button>
-                <button onclick='exportSingleVCard()'>Export To vCard</button>
+                <button onclick='exportSingleVCard()'>Export vCard</button>
             </nav>
         </div>
         <div class="planner-div" id="planner-calendar-start">
@@ -87,8 +87,8 @@
             <nav>
                 <!-- <button onclick="loadOutlookCSV();">&#128194; Import CSV</button>
                 <button onclick="createOutlookCSV();">&#128193; Export CSV</button> -->
-                <button onclick="importICSCalendar()">&#128194; Import ICS</button>
-                <button onclick="exportICSCalendar()">&#128193; Export ICS</button>
+                <button onclick="importICSCalendar()">&#128194; Import vCalendar</button>
+                <button onclick="exportICSCalendar()">&#128193; Export vCalendar</button>
                 <button onclick="clearCalendar();">Clear Calendar</button>
                 <span class="nested-menu">&lrarr;</span>
             </nav>
@@ -114,8 +114,8 @@
                 <button onclick='saveCalendarEntry();'>Save</button>
                 <button onclick='deleteCalendarEntry();'>Delete</button>
                 <button onclick='cancelCalendarEntry();'>Cancel</button>
+                <button onclick="exportSingleICalEvent()">Export Event</button>
             </nav>
-
         </div>
     </main>
 
