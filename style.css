@@ -217,6 +217,15 @@ main{
     box-sizing: border-box;
 }
 
+#planner-planner-help ul li{
+    list-style-position: inside;
+    list-style-type: disc;
+    margin:0 15px;
+}
+#planner-planner-help p{
+ margin: 15px;
+}
+
 .table-container table,
 .table-container table td,
 .table-container table th {
