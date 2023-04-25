@@ -1,0 +1,33 @@
+<?php
+include("boiler-1-before-style-tag.php");
+echo("<style>");
+include("style.css");
+echo("</style>");
+include("boiler-2-between-style-and-main.php");
+include("mainPlanner.php");
+// include("mainNotes.php");
+// include("mainWrite.php");
+// include("mainTables.php");
+// include("mainCalculator.php");
+include("boiler-3-between-main-and-scripts.php");
+echo("<script>");
+include("license.js");
+include("csvreaderwriter.js");
+include("commonFunctions.js");
+include("nestedmenu.js");
+include("planner.js");
+// include("notes.js");
+// include("write.js");
+// include("tables.js");
+// include("calculator.js");
+echo("</script>");
+echo("<script>");
+// include("open-script-bitoffice.js");
+include("open-script-planner.js");
+// include("open-script-notes.js");
+// include("open-script-write.js");
+// include("open-script-tables.js");
+// include("open-script-calculator.js");
+echo("</script>");
+include("boiler-4-after-scripts.php");
+?>
