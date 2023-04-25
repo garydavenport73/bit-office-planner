@@ -196,6 +196,7 @@ function csvToArrays(CSVString) {
 
             //remove outer quotes if present
             if (rowArray[j][rowArray[j].length - 1] === '"') {
+                
                 rowArray[j] = rowArray[j].slice(0, rowArray[j].length - 1);
             }
             if (rowArray[j][0] === '"') {
@@ -311,6 +312,7 @@ function unorderedJSONToArrays(jsonObject, includeHeaders = true) {
 //COMPOSITE FUNCTIONS
 function csvToJSON(csvString, usingHeaders = true) {
     let arrays = csvToArrays(csvString);
+    console.log(arrays);
     let jsonObject = arraysToJSON(arrays, usingHeaders);
     return jsonObject;
 }

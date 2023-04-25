@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link id="favicon-link" rel="icon" type="image/x-icon" href="">
+    <title>bitOffice</title>
+</head>
+
+<body>
+    <!-- <h1 onclick="alert(license);">bitOffice</h1>
+    <nav id="top-nav">
+        <button onclick="showMain('main-planner');">&#9742;&#128197;</button>
+        <button onclick="showMain('delete-me');">&#128196;</button>
+        <button onclick="showMain('delete-me');">&#128221;</button>
+        <button onclick="showMain('delete-me');">&#9638;</button>
+        <button onclick="showMain('delete-me');">&#128290;</button>
+    </nav> -->
+    <main id="main-calculator">
+        <h2>Calculator</h2>
+        <input type=text id='calculator-input'>
+        <nav id="calc-clr">
+            <button class="special-calculator-button" id="clear-calc">CLR</button>
+            <button id="remove-last-char">&larr;</button>
+        </nav>
+
+        <div id="last-calculator-expression"></div>
+        <table id="calculator-table">
+            <tr>
+                <td><button class='build-calc-string'>7</button></td>
+                <td><button class='build-calc-string'>8</button></td>
+                <td><button class='build-calc-string'>9</button></td>
+                <td><button class='build-calc-string'>/</button></td>
+            </tr>
+            <tr>
+                <td><button class='build-calc-string'>4</button></td>
+                <td><button class='build-calc-string'>5</button></td>
+                <td><button class='build-calc-string'>6</button></td>
+                <td><button class='build-calc-string'>*</button></td>
+            </tr>
+            <tr>
+                <td><button class='build-calc-string'>1</button></td>
+                <td><button class='build-calc-string'>2</button></td>
+                <td><button class='build-calc-string'>3</button></td>
+                <td><button class='build-calc-string'>-</button></td>
+            </tr>
+            <tr>
+                <td><button class='build-calc-string'>0</button></td>
+                <td><button class='build-calc-string'>.</button></td>
+                <td><button class="special-calculator-button" id="equals-button">=</button></td>
+                <td><button class='build-calc-string'>+</button></td>
+            </tr>
+        </table>
+    </main>
+    
+
+
+    <footer onclick="alert(license)">bitOffice &copy; 2022</footer>
+<script src="commonFunctions.js"></script>
+<script src="calculator.js"></script>
+<script>
+        // showPlannerDiv('planner-calendar-start');
+        makeFavicon("p", "white", "mediumblue");
+
+        window.onbeforeunload = askConfirm;
+        // alert("Load your planner file to start.");
+    </script>
+
+
+</body>
+
+</html>

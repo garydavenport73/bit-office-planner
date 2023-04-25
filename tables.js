@@ -10,23 +10,31 @@ let tablesTable = {
     ]
 }
 
-let compareTablesTable = JSON.stringify(tablesTable);
-let initialTablesTable = compareTablesTable;
+// let compareTablesTable = JSON.stringify(tablesTable);
+// let initialTablesTable = compareTablesTable;
+let initialTablesTable = JSON.stringify(tablesTable);
+initializeTablesApp();
+
 
 //////////TABLES//////////
 function showTablesDiv(id) {
     //console.log("show mains called with " + id);
+    updateDataFromCurrentInputs(tablesTable);
+
     let divs = document.getElementsByClassName('tables-div');
     for (let div of divs) {
         div.style.display = "none";
     }
     document.getElementById(id).style.display = "unset";
+    // document.getElementById(id).style.flexDirection="column";
 }
 
-initializeTablesApp();
+
 
 function initializeTablesApp() {
-    makeTable(tablesTable);
+    makeTable(JSON.parse(initialTablesTable));
+    updateDataFromCurrentInputs(tablesTable);
+    showTablesDiv('tables-tables-table');
 }
 
 function backupTablesTable() {
@@ -58,7 +66,7 @@ function makeTable(table) {
     let headers = table["headers"]; //an array of strings
     str += "<thead><tr><th></th>";
     for (let i = 0; i < headers.length; i++) {
-        str += "<th id='" + headers[i] + "' onclick=\"processColumnClick('" + headers[i] + "');\">" + headers[i] + "</th>";
+        str += "<th id='" + headers[i] + "' onclick=\"processColumnClick('" + headers[i] + "');\">" + headers[i].replace(/</g, "&lt;").replace(/>/g, "&gt;"); + "</th>";
     }
     str += "<th id='add-column' onclick='addColumn(tablesTable)'>+</th>";
     str += "</tr></thead>";
@@ -164,6 +172,8 @@ function updateHeaderName() {
             return;
         }
     }
+
+    //newName = newName.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
     tablesTable = _changeHeaderAndDataPropertyName(tablesTable, newName, fieldName);
 
@@ -365,11 +375,7 @@ function moveRow() {
 
 function tablesNewTable() {
     if (confirm("Are you sure?  This will erase all current data.")) {
-        tablesTable = JSON.parse(initialTablesTable);
-        compareTablesTable = initialTablesTable;
-        makeTable(tablesTable);
-        showTablesDiv('tables-tables-table');
-        return tablesTable;
+        initializeTablesApp();
     }
 }
 
@@ -385,12 +391,14 @@ function tablesLoad() {
         fileReader.onload = function(fileLoadedEvent) {
             fileContents = fileLoadedEvent.target.result;
             if (confirm("Use the first line as the header row?")) {
-                tablesTable = readCSV(fileContents, true);
+                //tablesTable = readCSV(fileContents, true);
+                tablesTable=csvToJSON(fileContents, true);
             } else {
-                tablesTable = readCSV(fileContents, false);
+                //tablesTable = readCSV(fileContents, false);
+                tablesTable=csvToJSON(fileContents, true);
             }
             makeTable(tablesTable);
-            compareTablesTable = JSON.stringify(tablesTable);
+            // compareTablesTable = JSON.stringify(tablesTable);
         };
         fileReader.readAsText(inputFile, "UTF-8");
     });
@@ -406,12 +414,12 @@ function tablesSave() {
     } else {
         saveStringToTextFile(makeCSV(tablesTable, false), "csvTable" + getTodaysDate(), ".csv");
     }
-    compareTablesTable = JSON.stringify(tablesTable);
+    // compareTablesTable = JSON.stringify(tablesTable);
 }
 
-function tablesShowRules() {
-    alert('FORMATTING RULES:\n\nWhen Saving:\n1) All cells are quoted text.\n2) Interior double quotes in cells are converted like this: "->""\n\nIf loading CSV from other apps:\n1) Cells should all be text type.\n2) Quote all text strings when saving.')
-}
+// function tablesShowRules() {
+//     alert('FORMATTING RULES:\n\nWhen Saving:\n1) All cells are quoted text.\n2) Interior double quotes in cells are converted like this: "->""\n\nIf loading CSV from other apps:\n1) Cells should all be text type.\n2) Quote all text strings when saving.')
+// }
 
 function tablesCopyCSVToClipboard() {
     updateDataFromCurrentInputs(tablesTable);

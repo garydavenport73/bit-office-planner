@@ -38,20 +38,23 @@ img {
 html {
     background-color: aliceblue;
 }
-h1:not(#document-result h1){
-    color:lavender;
+
+h1:not(#document-result h1) {
+    color: lavender;
     background-color: mediumblue;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 32px;
     font-weight: bold;
     padding: 2px;
 }
-#top-nav{
+
+#top-nav {
     color: white;
     background-color: mediumblue;
     padding-bottom: 2px;
 }
-#top-nav button{
+
+#top-nav button {
     font-size: 1.4rem;
     padding: 5px;
     margin: 1px;
@@ -60,7 +63,8 @@ h1:not(#document-result h1){
     border: #e0e0e0;
     border-radius: 5px;
 }
-h2:not(#document-result h2){
+
+h2:not(#document-result h2) {
     margin: 16px;
     /* padding: 2px; */
     /* background-color: mediumblue; */
@@ -72,21 +76,23 @@ h2:not(#document-result h2){
     font-family: Arial, Helvetica, sans-serif;
     border: 1px solid grey;
 }
-#main-planner h2{
+
+#main-planner h2 {
     color: white;
     background-color: purple;
 }
 
 
-#main-notes h2{
+#main-notes h2 {
     background-color: orange;
     color: black;
 }
-#main-write h2{
+
+#main-write h2 {
     background-color: cadetblue;
 }
 
-#main-tables h2{
+#main-tables h2 {
     background-color: forestgreen;
     color: antiquewhite;
 }
@@ -96,11 +102,20 @@ h2:not(#document-result h2){
     color: antiquewhite;
 } */
 
-#main-write h2{
+#main-write h2 {
     background-color: cadetblue;
     color: antiquewhite;
 }
-#document-result h1, #document-result h2, #document-result h3, #document-result h4{
+
+#main-calculator h2 {
+    background-color: dimgrey;
+    color:snow;
+}
+
+#document-result h1,
+#document-result h2,
+#document-result h3,
+#document-result h4 {
     background-color: unset;
     color: unset;
 }
@@ -135,14 +150,15 @@ h2:not(#document-result h2){
     white-space: pre-wrap;
 }
 
-main{
+main {
     background-color: #e0e0e0;
-    border: 1px solid orange;
+    /* border: 1px solid orange; */
 }
 
 body {
     width: 320px;
     background-color: lightskyblue;
+    background-color: #e0e0e0;
     margin: auto;
     padding: 5px;
     box-sizing: border-box;
@@ -158,21 +174,24 @@ nav {
 }
 
 
-#edit-bar,#document-settings{
-display: flex;
-justify-content: left;
+#edit-bar,
+#document-settings {
+    display: flex;
+    justify-content: left;
     flex-wrap: wrap;
     background-color: cadetblue;
     border: 1px solid black;
     margin: 0;
     padding: 0;
 }
-#edit-bar button, #document-settings button{
+
+#edit-bar button,
+#document-settings button {
     border-radius: 5px;
     background-color: #e0e0e0;
     border: 1px solid grey;
-padding: 1px 4px;
-margin: 0;
+    padding: 1px 4px;
+    margin: 0;
 }
 
 #text-editor {
@@ -183,6 +202,7 @@ margin: 0;
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
 footer {
     position: fixed;
     bottom: 0;
@@ -194,7 +214,11 @@ button {
     padding: 5px;
 }
 
-#main-planner, #main-notes, #main-write, #main-tables {
+#main-planner,
+#main-notes,
+#main-write,
+#main-tables,
+#main-calculator {
     display: flex;
     flex-direction: column;
 }
@@ -206,7 +230,7 @@ button {
 #main-planner h3{
     border-bottom: 1px solid lightslategray;
 } */
-main{
+main {
     min-height: 320px;
 }
 
@@ -217,13 +241,23 @@ main{
     box-sizing: border-box;
 }
 
-#planner-planner-help ul li{
+#planner-planner-help ul li, #tables-help ul li {
     list-style-position: inside;
     list-style-type: disc;
-    margin:0 15px;
+    margin: 0 15px;
 }
-#planner-planner-help p{
- margin: 15px;
+#planner-planner-help ol li, #tables-help ol li {
+    list-style-position: inside;
+    list-style-type:decimal;
+    margin: 0 15px;
+}
+
+
+#planner-planner-help p,#tables-help p {
+    margin: 15px;
+}
+#planner-help, #tables-help pre{
+    font-size: 12px;
 }
 
 .table-container table,
@@ -237,7 +271,7 @@ main{
     /* https://stackoverflow.com/questions/248011/how-do-i-wrap-text-in-a-pre-tag */
     white-space: pre-wrap;
     font-size: 12px;
-    word-break:break-all;
+    word-break: break-all;
 }
 
 .table-container table {
@@ -285,22 +319,196 @@ main{
     flex-direction: column;
     align-items: center;
 }
-#special-calendar{
+
+#special-calendar {
     background-color: snow;
+        /* font-family: 'Courier New', Courier, monospace; */
+        font-family: Arial, Verdana, Helvetica, Tahoma, sans-serif;
+        font-size: 16px;
+        padding: 0;
+        margin: 0;
+        background-color: white;
 }
-#calendar-date{
+#special-calendar table td{
+    height: 32px;
+    text-align: center;
+    width: 32px;
+}
+#special-calendar {
+    border: 1px solid grey;
+    width: 240px;
+}
+#month-chooser{
+    background-color: #F5F5F5;
+    min-height: 30px;
+    border-radius: 5px;
+    width: 240px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+
+
+
+#calendar-date {
     display: none;
 }
+
 /* #UID{
     display: none;
 } */
-main h3{
-    background-color:#e0e0e0;
+main h3 {
+    background-color: #e0e0e0;
 }
-.nested-menu:hover{
+
+.nested-menu:hover {
     color: snow;
     background-color: grey;
 }
 
 /* TABLES APP */
+#tables-table th:hover:not(:first-of-type),
+#tables-table td:first-of-type:hover {
+    background-color: white;
+}
 
+#add-row:hover,
+#add-column:hover {
+    background-color: white;
+}
+/* #add-row, */
+/* not needed due to th first of type */
+#add-column
+{
+   min-width: 1rem;
+}
+
+.table-container {
+    display: block;
+    overflow-x: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+}
+
+#tables-table input {
+    width: 100%;
+    border: none;
+}
+
+#tables-table input:hover {
+    background-color: lightgrey;
+}
+
+#tables-table td {
+    padding: 0px;
+}
+
+/* NEXT 2 Keep From collapsing first last columns */
+#tables-table th:not(:last-of-type) {
+    min-width: 3rem;
+}
+
+#tables-table th:first-of-type {
+    min-width: 1rem;
+}
+
+#tables-table {
+    border: none;
+}
+
+/* #tables-table tfoot, 
+#tables-table tfoot tr, */
+/* #tables-table tfoot th {
+    border: none;
+} */
+
+#tables-table th {
+    border: none;
+}
+
+.tables-table-row-number {
+    border: none !important;
+
+}
+
+#tables-table {
+    background-color: lightgrey;
+}
+
+#tables-table-table {}
+
+#tables-tables-header-form>div,
+#tables-tables-row-form>div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 50%;
+    margin: auto;
+}
+
+#tables-tables-header-form *,
+#tables-tables-row-form * {
+    text-align: center;
+}
+
+/* Handles groups of inputs and buttons together on form */
+#tables-tables-header-form>div>div, #tables-tables-row-form>div>div {
+    margin: 5px 0px;
+}
+
+#tables-tables-header-form>div>div>*, #tables-tables-row-form>div>div>* {
+    width: 100%;
+}
+
+
+
+/*  CALCULATOR STUFF */
+
+#calculator-table {
+    width: 100%;
+    min-width: 0%;
+}
+
+#calculator-table td button {
+    font-size: 2rem;
+    width: 100%;
+    height: 4rem;
+}
+
+.special-calculator-button {
+    background-color: #ffcc33;
+    border: 1px solid grey;
+}
+
+#last-calculator-expression {
+    overflow-wrap: anywhere;
+    min-height: 18px;
+    color: grey;
+}
+
+#calculator-input {
+    width: 100%;
+    height: 40px;
+    font-size: 1.4rem;
+    text-align: right;
+}
+
+#calc-clr button {
+    width: 50%;
+    font-size: 1.4rem;
+    padding: 5px;
+}
+
+main nav button{
+    /* border-radius: 5px;
+    border:1px solid grey; */
+    background-color: #e0e0e0;
+    border: 1px solid grey;
+    border-radius: 3px;
+    /* font-size: 12px; */
+}
+
+/* make dim grey color */

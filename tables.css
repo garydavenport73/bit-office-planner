@@ -10,11 +10,6 @@ tr:hover:not(#tables-table>thead>tr, #tables-table>tbody>tr, #tables-table>tfoot
     background-color: white;
 }
 
-#tables-table th:hover:not(:first-of-type),
-#tables-table td:first-of-type:hover {
-    background-color: white;
-}
-
 th:hover {
     background-color: lightgrey;
 }
@@ -27,6 +22,7 @@ th:hover {
     width: 90%;
     text-align: center;
 }
+
 
 table {
     background-color: lightblue;
@@ -89,6 +85,13 @@ in between first and last table header */
     background-color: white;
     border-radius: 0;
 }
+
+#tables-table th:hover:not(:first-of-type),
+#tables-table td:first-of-type:hover {
+    background-color: white;
+}
+
+
 
 
 /* these 2 used together to apply min width to anything
